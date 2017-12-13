@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#db4336</color>
+    <color name="colorPrimaryDark">#a8acc7</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="EveryDay">#FFF9E1</color>
+    <color name="Focus">#E6FFFE</color>
+    <color name="Relax">#FFD19F</color>
+    <color name="Normal">#a8acc7</color>
+    <color name="line">@android:color/darker_gray</color>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lampapp</string>
+    <string name="lamp_1">Lamp 1</string>
+    <string name="lamp_2">Lamp 2</string>
+    <string name="title_activity_lamp_1_">Lamp_1_Activity</string>
+    <string name="lum">Luminosity</string>
+    <string name="light">Ligth Color</string>
+    <string name="lampada_1">file:///app/res/drawable/lampada_1</string>
+</resources>
