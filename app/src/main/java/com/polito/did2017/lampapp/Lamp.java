@@ -13,12 +13,19 @@ public	class Lamp extends AppCompatActivity {
     private Bitmap image;;
     private int intensity;
     private Boolean state;
+    private String	URL;
+
     //save the context recievied via constructor in a local variable
     Context applicationContext = MainActivity.getContextOfApplication();
 
     private Context context;
 
-    public Lamp( String	URL){
+    public Lamp( String	URL, String name, int rgb, int intensity, Bitmap image){
+        this.URL=URL;
+        this.name=name;
+        this.rgb=rgb;
+        this.intensity=intensity;
+        this.image=image;
     }
 
     public	void setColor(int rgb){

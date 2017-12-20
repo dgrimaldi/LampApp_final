@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        final GridView list = findViewById(R.id.grid_3);
+        final GridView gridView = findViewById(R.id.grid_3);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe);
         contextOfApplication = getApplicationContext();
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         baseAdapter = new BaseAdapter() {
-
                     @Override
                     public int getCount() {
                         return lm.getLamps().size();
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public View getView(final int i, View view, ViewGroup viewGroup) {
-
+                        Lamp L = (Lamp) getItem(i);
                         View v = null;
                         if (view == null)
                             v = getLayoutInflater().inflate(R.layout.adapterlist, viewGroup, false);
@@ -108,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
                         });
                         return v;
                     }
-                    };
-        list.setAdapter(baseAdapter);
+                };
+
+        gridView.setAdapter(baseAdapter);
+        System.out.println(baseAdapter);
         baseAdapter.notifyDataSetChanged();
 
 
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.aggiorna:
-                LampManager lm = LampManager.getInstance();;
+                LampManager lm = LampManager.getInstance();
                 lm.discover(new Runnable() {
                                 @Override
                                 public void run() {
