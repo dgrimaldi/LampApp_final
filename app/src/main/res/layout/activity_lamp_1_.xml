@@ -59,6 +59,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="8dp"
             android:rotation="0"
+            android:max="255"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:ignore="RtlCompat" />
@@ -103,30 +104,28 @@
 
         <TextView
             android:id="@+id/button1"
-            android:layout_width="90dp"
+            android:layout_width="80dp"
             android:layout_height="18dp"
 
 
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="Everyday"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/Everyday_button"
+            app:layout_constraintStart_toStartOf="@+id/Everyday_button"
             app:layout_constraintTop_toBottomOf="@+id/Everyday_button" />
 
         <Button
             android:id="@+id/Everyday_button"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/everyday"
-            app:layout_constraintEnd_toStartOf="@+id/Focus_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             tools:ignore="MissingConstraints" />
@@ -134,58 +133,79 @@
 
         <TextView
             android:id="@+id/button2"
-            android:layout_width="90dp"
+            android:layout_width="80dp"
             android:layout_height="18dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:text="Focus"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Focus_button" />
+            app:layout_constraintEnd_toEndOf="@+id/Focus_button"
+            app:layout_constraintStart_toStartOf="@+id/Focus_button" />
 
         <Button
             android:id="@+id/Focus_button"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/focus"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/space"
+            app:layout_constraintStart_toEndOf="@+id/Everyday_button"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/relax"
-            android:layout_width="90dp"
+            android:layout_width="80dp"
             android:layout_height="18dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:text="Relax"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toBottomOf="@+id/Relax_button"
+            app:layout_constraintEnd_toEndOf="@+id/Relax_button"
+            app:layout_constraintStart_toStartOf="@+id/Relax_button"
             tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/Relax_button"
-            android:layout_width="90dp"
-            android:layout_height="93dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/relax"
+            app:layout_constraintEnd_toStartOf="@+id/Color_Button"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/color"
+            android:layout_width="80dp"
+            android:layout_height="18dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="Color"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/Color_Button"
+            app:layout_constraintStart_toStartOf="@+id/Color_Button"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/Color_Button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_launcher"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Focus_button"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             tools:ignore="MissingConstraints" />
 
@@ -199,6 +219,16 @@
             app:layout_constraintTop_toTopOf="@+id/seekBar"
             app:layout_constraintVertical_bias="0.58000004"
             app:srcCompat="@drawable/light2" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="387dp" />
 
 
     </android.support.constraint.ConstraintLayout>

@@ -22,5 +22,7 @@
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
 </manifest>
