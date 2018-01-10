@@ -18,10 +18,20 @@ public	class Lamp extends AppCompatActivity {
     //save the context recievied via constructor in a local variable
     Context applicationContext = MainActivity.getContextOfApplication();
 
-    private Context context;
 
-    public Lamp( String	URL){
+    public Lamp( String	URL, String name){
+        this.name=name;
         this.URL=URL;
+        SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        SharedPreferences.Editor editor = sh.edit();
+        setName(name);
+        editor.putString(getName()+":URL", URL);
+        editor.apply();
+    }
+
+    public String getURL(){
+        this.URL=URL;
+        return URL;
     }
 
     public	void setColor(int rgb){
@@ -43,15 +53,15 @@ public	class Lamp extends AppCompatActivity {
         // Otteniamo il corrispondente Editor
         SharedPreferences.Editor editor = sh.edit();
         // Salviamo nelle preferences
-        editor.putString(name+"_DATA", name);
+        editor.putString("NAME", name);
         // Applichiamo l'editor
         editor.apply();
         //modifichiamo il valore dello switch
-        getState();
-        };
+        getName();
+    };
     public String getName(){
         SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        name = mPrefs.getString(name+"_DATA", null);
+        name = mPrefs.getString("NAME", null);
         return name;
     };
 
@@ -97,6 +107,7 @@ public	class Lamp extends AppCompatActivity {
     public Bitmap getPicture(){
         return null;
     };
+
 
 
 

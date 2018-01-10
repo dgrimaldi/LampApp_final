@@ -2,29 +2,32 @@ package com.polito.did2017.lampapp;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
+
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
+import static android.widget.AdapterView.*;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
 
     public static Context contextOfApplication;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         final GridView gridView = findViewById(R.id.grid_3);
+
+
 
         mSwipeRefreshLayout = findViewById(R.id.swipe);
         contextOfApplication = getApplicationContext();
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 iv.setImageResource(R.drawable.lampada_1);
-
+                v.setLongClickable(true);
                 ////////////////////
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -111,6 +116,74 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                /*v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        lm.removeLamp(i);
+                        baseAdapter.notifyDataSetChanged();
+                    }
+                });*/
+                gridView.setLongClickable(true);
+                v.setOnLongClickListener(new GridView.OnLongClickListener() {
+
+                    @Override
+                    public boolean onLongClick(View view) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                        alert.setTitle("ATTENTION!!");
+                        alert.setMessage("Are you sure to delete "+lm.getLamp(i).getName()+"?");
+                        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int s) {
+                                lm.removeLamp(i);
+                                baseAdapter.notifyDataSetChanged();
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.show();
+                        return true;
+                    }
+                });
+
+
+
+
+                    /*public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                        //Do your tasks here
+
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(
+                                MainActivity.this);
+                        alert.setTitle("Alert!!");
+                        alert.setMessage("Are you sure to delete record");
+                        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //do your work here
+                                dialog.dismiss();
+
+
+                        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+                            }
+                        });
+
+                        alert.show();
+
+                        return true;
+                    }
+                });*/
                 return v;
             }
         };
@@ -130,15 +203,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void myUpdateOperation() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                baseAdapter.notifyDataSetChanged();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 500);
-
+       private void myUpdateOperation() {
+        LampManager lm = LampManager.getInstance();
+           try {
+               lm.discover(new Runnable() {
+                   @Override
+                   public void run() {
+                   }
+               });
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -179,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
     public static Context getContextOfApplication() {
         return contextOfApplication;
     }
+
 
 
 

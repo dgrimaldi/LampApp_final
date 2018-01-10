@@ -43,7 +43,7 @@ public class TcpClient extends AsyncTask<Context, Void,Boolean> {
 
     protected void onPostExecute(Boolean result){
         super.onPostExecute(result);
-        Toast.makeText(context, "Changed: "+lamp.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "Changed: "+lamp.getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class TcpClient extends AsyncTask<Context, Void,Boolean> {
             while(send==false){
                 Log.d(TAG,"Apertura connesione");
                 socket = new Socket();
-                socket.connect(new InetSocketAddress(lamp.URL,port));
+                socket.connect(new InetSocketAddress(lamp.getURL(),port));
                 msgOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 msgIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 write(lamp.getState()+",");
