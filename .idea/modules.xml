@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/LampApp_final.iml" filepath="$PROJECT_DIR$/LampApp_final.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library-release/library-release.iml" filepath="$PROJECT_DIR$/library-release/library-release.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-swipe/library-swipe.iml" filepath="$PROJECT_DIR$/library-swipe/library-swipe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shootrefreshview/shootrefreshview.iml" filepath="$PROJECT_DIR$/shootrefreshview/shootrefreshview.iml" />
     </modules>
   </component>
 </project>

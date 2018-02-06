@@ -5,7 +5,6 @@ package com.polito.did2017.lampapp;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -53,17 +53,19 @@ public class TcpClient extends AsyncTask<Context, Void,Boolean> {
             while(send==false){
                 Log.d(TAG,"Apertura connesione");
                 socket = new Socket();
+                System.out.println("++++++++++++++++++!"+lamp.getURL());
+ //               int i = lamp.getURL().indexOf("[");
+ //               String URL = lamp.getURL().substring(0,i);
                 socket.connect(new InetSocketAddress(lamp.getURL(),port));
                 msgOut = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                 msgIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                write(lamp.getState()+",");
-                write(lamp.getIntensity()+"*");
                 int colo = lamp.getRgb();
                 String color = Integer.toHexString(colo).toUpperCase();
-                write(color+"/");
-                System.out.println(msgOut);
+                write(lamp.getState()+","+lamp.getIntensity()+"*"+color+"/"+lamp.getWing());
+                Log.d("TCP",lamp.getState()+","+lamp.getIntensity()+"*"+color+"/"+lamp.getWing());
                 //write(pos)
                 incomingMessage = msgIn.readLine();
+
                 try {
                 if (incomingMessage.equals("OK!")) {
                     System.out.println("ricevuto");

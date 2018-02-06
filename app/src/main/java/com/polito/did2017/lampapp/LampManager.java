@@ -1,126 +1,138 @@
 package com.polito.did2017.lampapp;
 
         import android.annotation.TargetApi;
-        import android.content.Context;
-        import android.content.SharedPreferences;
-        import android.os.Build;
-        import android.preference.PreferenceManager;
-        import android.support.v7.app.AppCompatActivity;
-        import android.util.Log;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Toast;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 06/12/2017.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class LampManager extends AppCompatActivity {
+public class LampManager {
 
 
-    private static final LampManager ourInstance = new LampManager();
-    private List<Lamp> lista = new ArrayList();
-    Context applicationContext = MainActivity.getContextOfApplication();
+    private static LampManager ourInstance = null;
+    private List<Lamp> lista = Collections.synchronizedList(new ArrayList());
+    private Context ctx;
+    SharedPreferences mPrefs;
+    Map<String, ?> allEntries;
+    SharedPreferences.Editor editor;
 
-    SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-    Map<String,?> allEntries = mPrefs.getAll();
-
-
-
-    //private LampManager() {
-    //    lista= new ArrayList<>();
-    //}
-
-    public static LampManager getInstance() {
-        return ourInstance;
+    private LampManager(Context ctx) {
+        this.ctx = ctx.getApplicationContext();
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        allEntries = mPrefs.getAll();
+        editor = mPrefs.edit();
     }
 
 
+    public static synchronized LampManager getInstance(Context ctx) {
+        if (ourInstance == null) ourInstance = new LampManager(ctx);
+        return ourInstance;
+    }
 
-    public void setLamps(){
-
-        boolean b =true;
-        for (Map.Entry<String,?> entry: allEntries.entrySet()) {
+    public void setLamps() {
+        boolean b = true;
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             String url = null;
             Log.d("map_values", entry.getKey() + ": " + entry.getValue().toString());
             if (entry.getKey().contains("URL")) {
                 url = (String) entry.getValue().toString();
-                int i = entry.getKey().indexOf(":",2);
-                Log.d("map_values", entry.getKey() + i +": " + entry.getValue().toString());
-                String name = entry.getKey().substring(0,i);
+                int i = entry.getKey().indexOf(":", 2);
+                Log.d("map_values", entry.getKey() + i + ": " + entry.getValue().toString());
+                String name = entry.getKey().substring(0, i);
                 System.out.println(name);
-                Lamp l = new Lamp(url,name);
-                for (int pos=0; pos < lista.size(); pos++){
-                    if(getLamp(pos).getName().equals(name)){
-                        b =false;
-                        break;
-                    }else
-                        b =true;
+                Lamp l = new Lamp(url, name, ctx);
+                synchronized (lista) {
+                    for (int pos = 0; pos < lista.size(); pos++) {
+                        if (getLamp(pos).getName().equals(name)) {
+                            b = false;
+                            break;
+                        } else
+                            b = true;
+                    }
+                    if (b)
+                        lista.add(l);
                 }
-                if(b)
-                    lista.add(l);
             }
         }
-        //if(l.getName().equals(lista.get(i).getName())){
-            //    lista.remove(l);
-            //}else
-            //    lista.add(l);
-        
     }
 
-    public List<Lamp> getLamps(){
+    public List<Lamp> getLamps() {
         return lista;
-    };
-    public Lamp getLamp(int i){
+    }
+
+    ;
+
+    public Lamp getLamp(int i) {
         return lista.get(i);
-    };
-    public void removeLamp(int i){
-        SharedPreferences.Editor editor = mPrefs.edit();
-        for (Map.Entry<String,?> entry: allEntries.entrySet()){
-            if(entry.getKey().contains(lista.get(i).getName()) ||
-                    entry.getValue().toString().contains((lista.get(i).getName()))){
+    }
+
+    ;
+
+    public void removeLamp(String name) {
+        //Log.d("REMOVELAMP", lista.get(i).getName());
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            if (entry.getValue().toString().contains(name) || entry.getKey().contains(name)) {
                 editor.remove(entry.getKey());
-                editor.apply();
+            }
+        }
+        int i;
+        synchronized (lista) {
+            for (i = 0; i < lista.size(); i++) {
+                if (name.equals(lista.get(i).getName()))
+                    break;
             }
         }
         lista.remove(i);
+        editor.commit();
     }
 
-
-    public void discover(Runnable done) throws InterruptedException {
-        ClientListen cl = new ClientListen();
-        new Thread(cl).start();
-        done.run();
-        if(cl==null)
-            lista.clear();
+    public boolean addLamp(Boolean s, String URL, int lum, int col, int win, String name, String img) throws InterruptedException {
+        Log.i("UDP", "Messagio ricevuto!");
+        boolean b = true;
         try {
-            Boolean b = true;
-            System.out.print(getLamps());
-            System.out.println(cl.text);
-            for (int i=0; i < lista.size(); i++){
-                if(cl.text.equals(lista.get(i).getName()))
-                    b=false;
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println(lista.get(i).getName() + ".equals" + name);
+                if (lista.get(i).getName().equals(name)) {
+                    b = false;
+                    if (!lista.get(i).getURL().equals(URL)) {
+                        lista.get(i).setURL(URL);
+                    }
+                    break;
+                } else
+                    b = true;
             }
-            if (b) {
-                    Lamp l = new Lamp( cl.URL.replace("/", ""), cl.text);
-                    this.lista.add(l);
-                    new TcpClient(l, applicationContext).execute();
-
-            }else if(cl.text=="NULL") {
-            }
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            Log.d("ERROR","Nessuna lampada trovata");
-            Toast.makeText(applicationContext, "Lamp not found", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.d("ERR", e.getMessage());
         }
+        if (b) {
+            System.out.println("Thread.sleep(5000)");
+            Lamp l = new Lamp(URL, name, ctx);
+            l.setState(s);
+            l.setColor(col);
+            l.setIntensity(lum);
+            l.setWing(win);
+            l.setPicture(img);
+            new TcpClient(l, ctx).execute();
+            lista.add(l);
+        }
+        //Ho dovuto inserire c>='0' && c<='9' && name.contains("LAMP_")
+        // perché alle volte arrivavano caratteri unicode
+        // che incasinavano la lista, il nome
+        // delle lampade deve quindi essere nel formato
+        // "LAMP_c" con c numero naturale
 
-
-
-    }
+        return b;
+    };
 }
+
 

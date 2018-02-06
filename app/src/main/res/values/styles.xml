@@ -17,4 +17,18 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#000</item>
+
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#FF8A8A8A
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#000000
+        </item>
+    </style>
+
 </resources>

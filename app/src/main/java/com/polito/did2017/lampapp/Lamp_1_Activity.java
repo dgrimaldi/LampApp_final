@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.dinuscxj.shootrefreshview.ShootRefreshView;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
@@ -26,7 +27,14 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 public class Lamp_1_Activity extends AppCompatActivity {
 
-    public static Context contextOfApplication;
+    ScrollView sV;
+    ConstraintLayout cL;
+    SeekBar bar;
+    int pos;
+    SeekBar mPullProgressBar;
+    Switch aSwitch;
+    int colorI;
+    ShootRefreshView shootRefreshView;
 
 
 
@@ -35,7 +43,6 @@ public class Lamp_1_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        contextOfApplication = getApplicationContext();
 
 
         super.onCreate(savedInstanceState);
@@ -43,42 +50,41 @@ public class Lamp_1_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_lamp_1_);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ScrollView sV = findViewById(R.id.scrollView);
-        final ConstraintLayout cL = findViewById(R.id.Constraint_layout);
+
+
+        sV= findViewById(R.id.scrollView);
+        cL= findViewById(R.id.Constraint_layout);
         Button b1 = findViewById(R.id.Everyday_button);
         Button b2 = findViewById(R.id.Focus_button);
         Button b3 = findViewById(R.id.Relax_button);
         Button b4 = findViewById(R.id.Color_Button);
-        final Switch aSwitch = findViewById(R.id.switchState);
-        final SeekBar bar = findViewById(R.id.seekBar);
+        aSwitch = findViewById(R.id.switchState);
+        bar= findViewById(R.id.seekBar);
+
+        shootRefreshView = findViewById(R.id.shoot_refresh_view);
+
+        mPullProgressBar= findViewById(R.id.pull_progress_bar);
 
 
         final Intent i = getIntent();
         //Animation
 
         //
-        final int pos = i.getExtras().getInt("pos");
+        pos= i.getExtras().getInt("pos");
         // Necessario in precedenza ora leggiamo i valori da Preferences
         //System.out.println(state);
         //S1.setChecked(state);
 
-        final LampManager lm = LampManager.getInstance();
+        final LampManager lm = LampManager.getInstance(this);
+        colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
-        getInitial(lm, i);
+        getInitial(lm, pos);
 
         aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean state = aSwitch.isChecked();
                 lm.getLamp(pos).setState(state);
-                int color = lm.getLamp(pos).getRgb();
-                if(aSwitch.isChecked()){
-                    cL.setBackgroundColor(color);
-                    sV.setBackgroundColor(color);
-                }else {
-                    cL.setBackgroundColor(getResources().getColor(R.color.Normal));
-                    sV.setBackgroundColor(getResources().getColor(R.color.Normal));
-                }
                 RefreshLamp(lm,pos);
             }
         });
@@ -93,6 +99,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
                 this.intensity=intensity;
                 lm.getLamp(pos).setIntensity(intensity);
                 System.out.println(intensity);
+                RefreshLamp(lm,pos);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -113,15 +120,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
                     int color = getResources().getColor(R.color.EveryDay);
                     if (lm.getLamp(pos).getRgb() != color) {
                         lm.getLamp(pos).setColor(color);
-                        cL.setBackgroundColor(color);
-                        sV.setBackgroundColor(color);
                         @SuppressLint("WrongConstant")
-                        Toast toast = Toast.makeText(getApplicationContext(), "EvryDay", 2);
+                        Toast toast = Toast.makeText(getApplicationContext(), "EvryDay", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
-                        lm.getLamp(pos).setColor(getResources().getColor(R.color.Normal));
-                        cL.setBackgroundColor(getResources().getColor(R.color.Normal));
-                        sV.setBackgroundColor(getResources().getColor(R.color.Normal));
                     }
                 }
                 RefreshLamp(lm,pos);
@@ -137,15 +138,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
                     int color = getResources().getColor(R.color.Focus);
                     if (lm.getLamp(pos).getRgb() != color) {
                         lm.getLamp(pos).setColor(color);
-                        cL.setBackgroundColor(color);
-                        sV.setBackgroundColor(color);
                         @SuppressLint("WrongConstant")
-                        Toast toast = Toast.makeText(getApplicationContext(), "Focus", 2);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Focus", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
-                        lm.getLamp(pos).setColor(getResources().getColor(R.color.Normal));
-                        cL.setBackgroundColor(getResources().getColor(R.color.Normal));
-                        sV.setBackgroundColor(getResources().getColor(R.color.Normal));
                     }
                 }
                 RefreshLamp(lm,pos);
@@ -161,15 +156,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
                     int color = getResources().getColor(R.color.Relax);
                     if (lm.getLamp(pos).getRgb() != color) {
                         lm.getLamp(pos).setColor(color);
-                        cL.setBackgroundColor(color);
-                        sV.setBackgroundColor(color);
                         @SuppressLint("WrongConstant")
-                        Toast toast = Toast.makeText(getApplicationContext(), "Relax", 2);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Relax", Toast.LENGTH_SHORT);
                         toast.show();
-                    } else {
-                        lm.getLamp(pos).setColor(getResources().getColor(R.color.Normal));
-                        cL.setBackgroundColor(getResources().getColor(R.color.Normal));
-                        sV.setBackgroundColor(getResources().getColor(R.color.Normal));
                     }
                 }
                 RefreshLamp(lm,pos);
@@ -181,16 +170,15 @@ public class Lamp_1_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (lm.getLamp(pos).getState() == true) {
-                    findViewById(R.id.Color_Button).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                    //findViewById(R.id.Color_Button).setOnClickListener(new View.OnClickListener() {
+                        //@Override
+                        //public void onClick(View v) {
                             final Context context = Lamp_1_Activity.this;
-
                             ColorPickerDialogBuilder
                                     .with(context)
                                     .setTitle(R.string.color_dialog_title)
-                                    .initialColor(getResources().getColor(R.color.Normal))
-                                    .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                                    .initialColor(lm.getLamp(pos).getRgb())
+                                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                                     .density(12)
                                     .setOnColorChangedListener(new OnColorChangedListener() {
                                         @Override
@@ -209,11 +197,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                                             lm.getLamp(pos).setColor(selectedColor);
-                                            cL.setBackgroundColor(selectedColor);
-                                            sV.setBackgroundColor(selectedColor);
+                                            RefreshLamp(lm,pos);
                                             if (allColors != null) {
                                                 StringBuilder sb = null;
-
                                                 for (Integer color : allColors) {
                                                     if (color == null)
                                                         continue;
@@ -233,21 +219,30 @@ public class Lamp_1_Activity extends AppCompatActivity {
                                         }
                                     })
                                     .showColorEdit(true)
-                                    .setColorEditTextColor(ContextCompat.getColor(Lamp_1_Activity.this, android.R.color.holo_blue_bright))
+                                    .setColorEditTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_blue_bright))
                                     .build()
                                     .show();
-                        }
-                    });
-
-                   /* int color = getResources().getColor(R.color.Relax);
-                    if (lm.getLamp(pos).getRgb() != color) {
-                        lm.getLamp(pos).setColor(color);
-                        cL.setBackgroundColor(color);
-                        sV.setBackgroundColor(color);
-                        @SuppressLint("WrongConstant")
-                        Toast toast = Toast.makeText(getApplicationContext(), "Relax", 2);
-                        toast.show();*/
                 }
+                RefreshLamp(lm,pos);
+            }
+        });
+
+        mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                this.progress=progress;
+                shootRefreshView.pullProgress(0, ((float) progress) / ((float) seekBar.getMax()));
+                lm.getLamp(pos).setWing(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                lm.getLamp(pos).setWing(progress);
                 RefreshLamp(lm,pos);
             }
         });
@@ -256,40 +251,19 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
 
 
-    private void getInitial(LampManager lm, Intent i) {
-        final int pos = i.getExtras().getInt("pos");
-
-        boolean state = lm.getLamp(pos).getState();
-        final Switch aSwitch = findViewById(R.id.switchState);
-        aSwitch.setChecked(state);
-
+    private void getInitial(LampManager lm, int pos) {
+        aSwitch.setChecked(lm.getLamp(pos).getState());
         int luminosity = lm.getLamp(pos).getIntensity();
-        final SeekBar aBar = findViewById(R.id.seekBar);
-        aBar.setProgress(luminosity);
-
-        int color = lm.getLamp(pos).getRgb();
-        final ScrollView scrollView = findViewById(R.id.scrollView);
-        final ConstraintLayout constraintLayout = findViewById(R.id.Constraint_layout);
-        if(aSwitch.isChecked()){
-            constraintLayout.setBackgroundColor(color);
-            scrollView.setBackgroundColor(color);
-        }else{
-            constraintLayout.setBackgroundColor(getResources().getColor(R.color.Normal));
-            scrollView.setBackgroundColor(getResources().getColor(R.color.Normal));
-        }
+        bar.setProgress(luminosity);
+        int progress = lm.getLamp(pos).getWing();
+        mPullProgressBar.setProgress(progress);
+        shootRefreshView.pullProgress(0,((float) progress) / ((float) mPullProgressBar.getMax()));
     }
 
 
-
-    //
-
-
-    public static Context getContextOfApplication() {
-        return contextOfApplication;
-    }
 
     public void RefreshLamp(LampManager lm, int i){
-        new TcpClient(lm.getLamp(i), contextOfApplication).execute();
+        new TcpClient(lm.getLamp(i), getApplicationContext()).execute();
 
     }
 

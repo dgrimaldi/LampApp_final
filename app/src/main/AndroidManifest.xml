@@ -20,7 +20,9 @@
         <activity android:name=".Lamp_1_Activity"
             android:label="@string/lamp_1"
             android:parentActivityName=".MainActivity"
-            tools:targetApi="jelly_bean"></activity>
+            tools:targetApi="jelly_bean">
+        </activity>
+        <service android:name=".UDPService"></service>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 

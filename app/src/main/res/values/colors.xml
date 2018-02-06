@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#db4336</color>
-    <color name="colorPrimaryDark">#a8acc7</color>
+    <color name="colorPrimaryDark">#aff0f0f0</color>
     <color name="colorAccent">#FF4081</color>
     <color name="EveryDay">#FFF9E1</color>
     <color name="Focus">#E6FFFE</color>
     <color name="Relax">#FFD19F</color>
-    <color name="Normal">#a8acc7</color>
     <color name="line">@android:color/darker_gray</color>
+    <color name="disable_foreground_grey">#FF8A8A8A</color>
+    <color name="disable_thumb_grey">#000000</color>
+    <color name="enable_thumb_green">#000000</color>
+
+    <color name="black">#000000</color>
+
 </resources>

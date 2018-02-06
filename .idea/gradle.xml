@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/library-release" />
+            <option value="$PROJECT_DIR$/library-swipe" />
+            <option value="$PROJECT_DIR$/shootrefreshview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

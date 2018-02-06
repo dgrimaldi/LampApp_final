@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 26
@@ -36,4 +37,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':library-release')
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    compile project(':shootrefreshview')
+    compile project(':library-swipe')
+    implementation 'com.android.support:design:26.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile project(path: ':library-swipe')
 }
