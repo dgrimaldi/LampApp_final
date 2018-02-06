@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "62497619464",
+    "firebase_url": "https://lampapp-6688e.firebaseio.com",
+    "project_id": "lampapp-6688e",
+    "storage_bucket": "lampapp-6688e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62497619464:android:4138f53693e01a0b",
+        "android_client_info": {
+          "package_name": "com.polito.did2017.lampapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62497619464-87j5koi5c5gqm35fe52jjojmi7ac452s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE5V1Rcz_EK56sDtb18b0-y3UH_RD0x3E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
