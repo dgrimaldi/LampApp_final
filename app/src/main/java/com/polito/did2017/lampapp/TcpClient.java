@@ -31,13 +31,11 @@ public class TcpClient extends AsyncTask<Context, Void,Boolean> {
     private static BufferedReader msgIn;
     private String incomingMessage;
     boolean send;
-    Context context;
     private Lamp lamp;
 
 
-    public TcpClient(Lamp lamp, Context context) {
+    public TcpClient(Lamp lamp) {
         this.lamp=lamp;
-        this.context=context;
     }
 
 

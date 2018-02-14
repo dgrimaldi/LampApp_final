@@ -48,12 +48,12 @@ public abstract class BaseSwipeAdapter extends BaseAdapter implements SwipeItemM
 
 
     @Override
-    public final View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
         if(v == null){
             v = generateView(position, parent);
         }
-        mItemManger.bind(v, position);
+        //mItemManger.bind(v, position);
         fillValues(position, v);
         return v;
     }

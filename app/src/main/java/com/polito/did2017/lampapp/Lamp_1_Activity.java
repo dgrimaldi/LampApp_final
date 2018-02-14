@@ -75,6 +75,8 @@ public class Lamp_1_Activity extends AppCompatActivity {
         //System.out.println(state);
         //S1.setChecked(state);
 
+
+        //final LampManager lm = new LampManager();
         final LampManager lm = LampManager.getInstance(this);
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
@@ -263,7 +265,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
 
     public void RefreshLamp(LampManager lm, int i){
-        new TcpClient(lm.getLamp(i), getApplicationContext()).execute();
+        new TcpClient(lm.getLamp(i)).execute();
 
     }
 

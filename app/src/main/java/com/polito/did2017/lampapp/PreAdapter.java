@@ -17,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface;
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
 import com.daimajia.swipe.util.Attributes;
@@ -29,15 +30,21 @@ import java.util.List;
  * Created by Davide on 16/01/2018.
  */
 
-public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface {
+public class PreAdapter extends BaseAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface {
 
     LampManager lm;
     Context contextOfApplication;
-    BaseSwipeAdapter baseSwipeAdapter = this;
+    //BaseSwipeAdapter baseSwipeAdapter = this;
+    boolean mIsOpen=true;
+    protected SwipeItemMangerImpl mItemManger = new SwipeItemMangerImpl(this);
+    private SwipeLayout lo;
+    private View vC;
+    private View vCan;
 
-    public BaseSwipeAdapter(Context ctx) {
-        lm=LampManager.getInstance(ctx);
-        contextOfApplication=ctx.getApplicationContext();
+    public PreAdapter(Context ctx) {
+        lm = LampManager.getInstance(ctx);
+        //lm = new LampManager();
+        contextOfApplication = ctx.getApplicationContext();
     }
 
 
@@ -76,56 +83,68 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
         s.setChecked(b);
         final int color = lm.getLamp(i).getRgb();
         // imposta lo swict
-        s.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View view) {
-                final boolean st = s.isChecked();
-                lm.getLamp(i).setState(st);
-                new TcpClient(lm.getLamp(i), contextOfApplication).execute();
-            }
-        });
+
+            s.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceAsColor")
+                @Override
+                public void onClick(View view) {
+                    final boolean st = s.isChecked();
+                    lm.getLamp(i).setState(st);
+                    new TcpClient(lm.getLamp(i)).execute();
+                }
+            });
         Picasso.with(contextOfApplication).load(lm.getLamp(i).getPicture()).into(iv);
         ////////////////////
 
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openItem(i);
-            }
-        });
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mIsOpen) {
+                        openItem(i);
+                    }
+                }
+            });
 
         SwipeLayout swipeLayout = null;
         swipeLayout = v.findViewById(R.id.swipe1);
         swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
         swipeLayout.addDrag(SwipeLayout.DragEdge.Left, swipeLayout.findViewById(R.id.bottom_wrapper));
 
-        final View finalV = v;
+        final View finalV1 = v;
+
 
         swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-            public boolean mIsOpen=false;
-
             @Override
             public void onStartOpen(SwipeLayout layout) {
+                mIsOpen = false;
                 Log.d("SWIPE_POS","onStartOpen"+i);
             }
 
             @Override
-            public void onOpen(SwipeLayout layout) {
-                Log.d("SWIPE_POS_op","onOpen"+i);
-                mIsOpen = true;
-                closeItem(finalV,l);
-
+            public void onOpen(final SwipeLayout layout) {
+                Log.d("SWIPE_POS_op","onOpen"+i+lm.getLamp(i).getName());
+                lo=layout;
+                vCan = finalV1;
+                mIsOpen = false;
+                Log.d("onOpen_nameLM",lm.getLamp(i).getName());
+                closeItem(i);
+                layout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lo.close();
+                    }
+                }, 50);
             }
 
             @Override
             public void onStartClose(SwipeLayout layout) {
+                mIsOpen = false;
                 Log.d("SWIPE_POS","onStartClose"+i);
             }
 
             @Override
             public void onClose(SwipeLayout layout){
-                mIsOpen = false;
+                mIsOpen = true;
                 Log.d("SWIPE_POS","onClose"+i);
             }
 
@@ -135,13 +154,23 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
             }
 
             @Override
-            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-                if(mIsOpen)
+            public void onHandRelease(final SwipeLayout layout, float xvel, float yvel) {
+                if(layout.getOpenStatus() == SwipeLayout.Status.Open){
+                    layout.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            layout.close();
+                        }
+                    }, 50);
+                }
                 Log.d("SWIPE_POS","onHandRelease"+i);
             }
         });
+
+        //lo.close();
         return v;
     }
+
 
 
     @Nullable
@@ -152,6 +181,7 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
 
     @Override
     public void openItem(int position) {
+        Log.d("positionO",lm.getLamp(position).getName());
         Intent i = new Intent(contextOfApplication, Lamp_1_Activity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("pos", position);
@@ -159,47 +189,54 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
     }
 
     @Override
-    public void closeItem(int position) {
-
-    }
-
-    public void closeItem(View v, final Lamp l) {
-        //final int adapterPosition = viewHolder.getAdapterPosition();
-        final Boolean state = l.getState();
-        final String url = l.getURL();
-        final int lum = l.getIntensity();
-        final int col = l.getRgb();
-        final int win = l.getWing();
-        final String name = l.getName();
-        final String img =  l.getPicture();
-        //snackbar = Snackbar;
-        Snackbar snackbar = Snackbar.make(v, "UNDO", Snackbar.LENGTH_LONG);
+    public void closeItem(final int position) {
+        Log.d("closeItem_nameLM",lm.getLamp(position).getName());
+        final Boolean state = lm.getLamp(position).getState();
+        final String url = lm.getLamp(position).getURL();
+        final int lum = lm.getLamp(position).getIntensity();
+        final int col = lm.getLamp(position).getRgb();
+        final int win = lm.getLamp(position).getWing();
+        final String name = lm.getLamp(position).getName();
+        final String img =  lm.getLamp(position).getPicture();
+        lm.removeLamp(name);
+        notifyDatasetChanged();
+        Snackbar snackbar = Snackbar.make(vCan, "UNDO", Snackbar.LENGTH_LONG);
         snackbar.setAction("ANNULLA", new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 //int mAdapterPosition = viewHolder.getAdapterPosition();
                 try {
                     lm.addLamp(state, url, lum, col, win, name,img);
+                    ViewGroup viewGroup=null;
+                    getView(position,vCan,viewGroup);
+                    notifyDatasetChanged();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                lo.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lo.close();
+                    }
+                }, 50);
                 notifyDatasetChanged();
                 return;
             }
         });
         snackbar.show();
-        lm.removeLamp(name);
+        Log.d("Nome Swipe", name);
         notifyDatasetChanged();
     }
-
     @Override
     public void closeAllExcept(SwipeLayout layout) {
 
     }
 
+
+
     @Override
     public void closeAllItems() {
-
     }
 
     @Override
@@ -214,7 +251,6 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
 
     @Override
     public void removeShownLayouts(SwipeLayout layout) {
-
     }
 
     @Override
@@ -234,11 +270,11 @@ public class BaseSwipeAdapter extends BaseAdapter implements SwipeItemMangerInte
 
     @Override
     public int getSwipeLayoutResourceId(int position) {
-        return R.layout.swipelayout;
+        return R.layout.adapterlist;
     }
 
     @Override
     public void notifyDatasetChanged() {
-        baseSwipeAdapter.notifyDataSetChanged();
+        super.notifyDataSetChanged();
     }
 }

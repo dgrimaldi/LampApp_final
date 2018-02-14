@@ -1,12 +1,10 @@
 package com.polito.did2017.lampapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 
-public	class Lamp {
+public	class Lamp implements Comparable<Lamp> {
     private String name;
     private int rgb;
     private Bitmap image;;
@@ -17,14 +15,14 @@ public	class Lamp {
     private int wing;
 
     //save the context recievied via constructor in a local variable
-    SharedPreferences sh ;
-    SharedPreferences.Editor editor;
+    //SharedPreferences sh ;
+    //SharedPreferences.Editor editor;
     private String picture;
 
 
-    public Lamp(String	URL, String name,Context ctx){
-        sh=PreferenceManager.getDefaultSharedPreferences(ctx);
-        editor = sh.edit();
+    public Lamp(String	URL, String name){
+        //sh=PreferenceManager.getDefaultSharedPreferences(ctx);
+        //editor = sh.edit();
         this.name=name;
         this.URL=URL;
         setName(name);
@@ -32,68 +30,68 @@ public	class Lamp {
     }
     public void setURL(String URL){
         this.URL=URL;
-        editor.putString(getName()+":URL", URL);
-        editor.apply();
+        //editor.putString(getName()+":URL", URL);
+        //editor.apply();
         getURL();
     }
     public String getURL(){
-        URL = sh.getString(getName()+":URL","");
+        //URL = sh.getString(getName()+":URL","");
         return URL;
     }
     public	void setColor(int rgb){
         this.rgb=rgb;
-        editor.putInt(getName()+"_COLOR_DATA", rgb);
-        editor.apply();
+        //editor.putInt(getName()+"_COLOR_DATA", rgb);
+        //editor.apply();
         getRgb();
     };
     public int getRgb(){
-        rgb = sh.getInt(getName()+"_COLOR_DATA", 0);
+        //rgb = sh.getInt(getName()+"_COLOR_DATA", 0);
         return rgb;
     }
     public void setName(String	sName){
         name=sName;
         this.sName=sName;
-        editor.putString(sName+"_NAME_DATA", name);
-        editor.apply();
+        //editor.putString(sName+"_NAME_DATA", name);
+        //editor.apply();
         getName();
     };
     public String getName(){
-        name = sh.getString(sName+"_NAME_DATA", null);
+        //name = sh.getString(sName+"_NAME_DATA", null);
         return name;
     };
 
     public void setState(boolean state){
         this.state=state;
-        editor.putBoolean(getName()+"_STATE_DATA", state);
-        editor.apply();
+        //editor.putBoolean(getName()+"_STATE_DATA", state);
+        //editor.apply();
         getState();
     }
     public Boolean getState() {
-        state = sh.getBoolean(getName()+"_STATE_DATA",false);
+        //state = sh.getBoolean(getName()+"_STATE_DATA",false);
         return state;
 
 
     }
     public void setIntensity(int intensity){
         this.intensity=intensity;
-        editor.putInt(getName()+"_LUM_DATA", intensity);
-        editor.apply();
+        //editor.putInt(getName()+"_LUM_DATA", intensity);
+        //editor.apply();
         getIntensity();
     };
     public int getIntensity(){
-        intensity = sh.getInt(getName()+"_LUM_DATA", 0);
+        //intensity = sh.getInt(getName()+"_LUM_DATA", 0);
         return intensity;
     }
 
     public String getPicture(){
-        picture = sh.getString(getName()+"_IMG_DATA",null);
+        //picture = sh.getString(getName()+"_IMG_DATA",null);
         return picture;
     }
 
     public void setPicture(String picture){
         this.picture=picture;
-        editor.putString(getName()+"_IMG_DATA",picture);
-        editor.apply();
+        //editor.putString(getName()+"_IMG_DATA",picture);
+        //editor.apply();
         getPicture();
     }
 
@@ -101,13 +99,18 @@ public	class Lamp {
 
     public void setWing(int wing) {
         this.wing = wing;
-        editor.putInt(getName()+"_WING_DATA", wing);
-        editor.apply();
+        //editor.putInt(getName()+"_WING_DATA", wing);
+        //editor.apply();
         getWing();
     }
 
     public int getWing() {
-        wing= sh.getInt(getName()+"_WING_DATA",0);
+        //wing= sh.getInt(getName()+"_WING_DATA",0);
         return wing;
+    }
+
+    @Override
+    public int compareTo(@NonNull Lamp o) {
+        return this.name.compareTo(o.name);
     }
 }

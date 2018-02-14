@@ -26,7 +26,7 @@ implements UDPService.OnHeadlineSelectedListener{
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     //BaseAdapter baseSwipeAdapter;
-    BaseSwipeAdapter baseSwipeAdapter;
+    LampAdapter lampAdapter;
     UDPService myService=null;
     NotificationCompat.Builder notification;
     private static final int uniqueID = 45612;
@@ -51,15 +51,23 @@ implements UDPService.OnHeadlineSelectedListener{
 
         // Esercitazione Sulla lista
         final LampManager lm = LampManager.getInstance(this);
-        lm.setLamps();
+        //final LampManager lm = new LampManager();
+        //lm.setLamps();
         //Per provare con deu lampade
-        /*try {
+        /*
+        try {
             lm.addLamp(true, "255.255.255.255", 100, 000000, 25, "LAMP_EXAMPLE_0",null);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
+        try {
+            lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1",null);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
         //
-        baseSwipeAdapter = new BaseSwipeAdapter(this);
+        lampAdapter = new LampAdapter(this);
 /*
         baseSwipeAdapter = new BaseAdapter() {
             @Override
@@ -162,9 +170,9 @@ implements UDPService.OnHeadlineSelectedListener{
             }
         };
 */
-        gridView.setAdapter(baseSwipeAdapter);
-        System.out.println(baseSwipeAdapter);
-        baseSwipeAdapter.notifyDataSetChanged();
+        gridView.setAdapter(lampAdapter);
+        System.out.println(lampAdapter);
+        lampAdapter.notifyDataSetChanged();
         notification = new NotificationCompat.Builder(this);
         notification.setAutoCancel(true);
 
@@ -209,7 +217,7 @@ implements UDPService.OnHeadlineSelectedListener{
             case R.id.aggiorna:
                 Intent intent = new Intent(this, UDPService.class);
                 bindService(intent, myConnection, Context.BIND_AUTO_CREATE);
-                baseSwipeAdapter.notifyDataSetChanged();
+                lampAdapter.notifyDataSetChanged();
                 try {
                     Thread.sleep(1000);
                     stopService(intent);
@@ -226,7 +234,6 @@ implements UDPService.OnHeadlineSelectedListener{
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onArticleSelected(int position) {
-        baseSwipeAdapter.notifyDataSetChanged();
         //notification.setSmallIcon(R.id.image_preview);
         notification.setTicker("New_LAMP");
         notification.setWhen(System.currentTimeMillis());
@@ -239,6 +246,6 @@ implements UDPService.OnHeadlineSelectedListener{
 
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(uniqueID, notification.build());
-
+        lampAdapter.notifyDataSetChanged();
     }
 }
