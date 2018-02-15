@@ -1,6 +1,7 @@
 package com.polito.did2017.lampapp;
 
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -28,7 +29,6 @@ implements UDPService.OnHeadlineSelectedListener{
     //BaseAdapter baseSwipeAdapter;
     LampAdapter lampAdapter;
     UDPService myService=null;
-    NotificationCompat.Builder notification;
     private static final int uniqueID = 45612;
 
 
@@ -68,113 +68,9 @@ implements UDPService.OnHeadlineSelectedListener{
         */
         //
         lampAdapter = new LampAdapter(this);
-/*
-        baseSwipeAdapter = new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return lm.getLamps().size();
-            }
 
-            @Override
-            public Object getItem(int i) {
-                return lm.getLamp(i);
-            }
-
-            @Override
-            public long getItemId(int i) {
-                return 0;
-            }
-
-            @Override
-            public View getView(final int i, View view, ViewGroup viewGroup) {
-                View v = null;
-                if (view == null)
-                    v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.adapterlist, viewGroup, false);
-                else
-                    v = view;
-                TextView tv = v.findViewById(R.id.textViewAD);
-                final Switch s = v.findViewById(R.id.switchAD);
-                ImageView iv = v.findViewById(R.id.imageViewAD);
-                System.out.println(lm.getLamp(i).URL);
-                //Imposta il testo
-                tv.setText(lm.getLamp(i).getName());
-                //setta lo swicht
-                boolean b = lm.getLamp(i).getState();
-                s.setChecked(b);
-                final int color = lm.getLamp(i).getRgb();
-                if(b && color != R.color.black)
-                    v.setBackgroundColor(lm.getLamp(i).getRgb());
-                else
-                    v.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                // imposta lo swict
-                final View finalV = v;
-                s.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("ResourceAsColor")
-                    @Override
-                    public void onClick(View view) {
-                        final boolean st = s.isChecked();
-                        lm.getLamp(i).setState(st);
-                        //char data = Boolean.toString(st).charAt(0);
-                        if (st) {
-                            if(color != R.color.black) {
-                                finalV.setBackgroundColor(lm.getLamp(i).getRgb());
-                            } else {
-                                finalV.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                            }
-                        }else{
-                            finalV.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                        }
-                        new TcpClient(lm.getLamp(i),MainActivity.this).execute();
-                    }
-                });
-                iv.setImageResource(R.drawable.lampada_1);
-                v.setLongClickable(true);
-                ////////////////////
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, Lamp_1_Activity.class);
-                        // Necessario in precedenza ora leggiamo i valori da Preferences
-                        intent.putExtra("pos", i);
-                        startActivity(intent);
-                    }
-                });
-                gridView.setLongClickable(true);
-                v.setOnLongClickListener(new GridView.OnLongClickListener() {
-
-                    @Override
-                    public boolean onLongClick(View view) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                        alert.setTitle("ATTENTION!!");
-                        alert.setMessage("Are you sure to delete "+lm.getLamp(i).getName()+"?");
-                        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int s) {
-                                lm.removeLamp(i);
-                                baseSwipeAdapter.notifyDataSetChanged();
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.show();
-                        return true;
-                    }
-                });
-                return v;
-            }
-        };
-*/
         gridView.setAdapter(lampAdapter);
-        System.out.println(lampAdapter);
         lampAdapter.notifyDataSetChanged();
-        notification = new NotificationCompat.Builder(this);
-        notification.setAutoCancel(true);
 
     }
 
@@ -235,17 +131,18 @@ implements UDPService.OnHeadlineSelectedListener{
     @Override
     public void onArticleSelected(int position) {
         //notification.setSmallIcon(R.id.image_preview);
-        notification.setTicker("New_LAMP");
-        notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("N");
+
 
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         PendingIntent pendingIntent= PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(pendingIntent);
-
-
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(uniqueID, notification.build());
+        Notification mBuilder = new Notification.Builder(this)
+                        .setSmallIcon(R.drawable.aggiorna)
+                        .setContentTitle("New Lamp")
+                        .setContentText("You have a new lamp!")
+                        .setContentIntent(pendingIntent).getNotification();
+        mBuilder.flags = Notification.FLAG_AUTO_CANCEL;
+        NotificationManager notificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0,mBuilder);
         lampAdapter.notifyDataSetChanged();
     }
 }
