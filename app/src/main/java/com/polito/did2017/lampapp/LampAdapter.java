@@ -19,7 +19,7 @@ import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by Davide on 11/02/2018.
+ * Created by Davide Grimaldi on 11/02/2018.
  */
 
 public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface  {
@@ -78,7 +78,7 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
             public void onOpen(SwipeLayout layout) {
                 for (int i=0;i<mIsOpen.length;i++)
                     mIsOpen[i]=false;
-                ImageButton b = (ImageButton) vi.findViewById(R.id.delete_button22);
+                ImageView b = (ImageView) vi.findViewById(R.id.trash2);
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
