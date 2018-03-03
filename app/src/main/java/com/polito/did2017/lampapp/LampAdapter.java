@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -78,14 +79,7 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
             public void onOpen(SwipeLayout layout) {
                 for (int i=0;i<mIsOpen.length;i++)
                     mIsOpen[i]=false;
-                ImageView b = (ImageView) vi.findViewById(R.id.trash2);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("sto chiudendo:", lm.getLamp(position).getName() +" nella posizione "+ position);
-                        closeLamp(position);
-                    }
-                });
+
             }
 
             @Override
@@ -122,6 +116,14 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
                 Log.d("sto aprendo:", lm.getLamp(position).getName() +" nella posizione "+ position);
                 if(mIsOpen[position])
                     openLamp(position);
+            }
+        });
+        Button b = (Button) vi.findViewById(R.id.delete);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("sto chiudendo:", lm.getLamp(position).getName() +" nella posizione "+ position);
+                closeLamp(position);
             }
         });
     }

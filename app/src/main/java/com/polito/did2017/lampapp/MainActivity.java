@@ -54,7 +54,7 @@ implements UDPService.OnHeadlineSelectedListener{
         //final LampManager lm = new LampManager();
         //lm.setLamps();
         //Per provare con deu lampade
-        /*
+
         try {
             lm.addLamp(true, "255.255.255.255", 100, 000000, 25, "LAMP_EXAMPLE_0",null);
         } catch (InterruptedException e) {
@@ -65,7 +65,7 @@ implements UDPService.OnHeadlineSelectedListener{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        */
+
         //
         lampAdapter = new LampAdapter(this);
 
