@@ -238,7 +238,7 @@ implements UDPService.OnHeadlineSelectedListener{
         //notification.setSmallIcon(R.id.image_preview);
         //notification.setTicker("New_LAMP");
         //notification.setWhen(System.currentTimeMillis());
-        //notification.setContentTitle("N");
+        //notification.setContentTitle("N";
 
         Intent intent = new Intent(MainActivity.this, Lamp_1_Activity.class);
         intent.putExtra("pos",position);
