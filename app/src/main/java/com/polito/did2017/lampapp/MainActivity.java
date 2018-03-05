@@ -247,6 +247,7 @@ implements UDPService.OnHeadlineSelectedListener{
                 .setSmallIcon(R.drawable.aggiorna)
                 .setContentTitle("New Lamp")
                 .setContentText("You have a new lamp!")
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent).getNotification();
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder);

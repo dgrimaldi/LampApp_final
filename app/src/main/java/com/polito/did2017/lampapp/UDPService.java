@@ -85,6 +85,7 @@ public class UDPService extends Service  {
                          bol = lm.addLamp(Boolean.parseBoolean(state),URL,lum,color,win,name,img);
                          if (bol){
                              final int position =lm.posLamp(name);
+                             // position from the list
                         //mCallback = (OnHeadlineSelectedListener) MainActivity.getContextOfApplication();
                             a.runOnUiThread(new Runnable() {
                                 @Override
