@@ -1,6 +1,7 @@
 package com.polito.did2017.lampapp;
 
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -235,17 +236,20 @@ implements UDPService.OnHeadlineSelectedListener{
     @Override
     public void onArticleSelected(int position) {
         //notification.setSmallIcon(R.id.image_preview);
-        notification.setTicker("New_LAMP");
-        notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle("N");
+        //notification.setTicker("New_LAMP");
+        //notification.setWhen(System.currentTimeMillis());
+        //notification.setContentTitle("N");
 
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        Intent intent = new Intent(MainActivity.this, Lamp_1_Activity.class);
+        intent.putExtra("pos",position);
         PendingIntent pendingIntent= PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(pendingIntent);
-
-
+        Notification mBuilder = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.aggiorna)
+                .setContentTitle("New Lamp")
+                .setContentText("You have a new lamp!")
+                .setContentIntent(pendingIntent).getNotification();
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(uniqueID, notification.build());
+        mNotificationManager.notify(0, mBuilder);
         lampAdapter.notifyDataSetChanged();
     }
 }

@@ -84,11 +84,12 @@ public class UDPService extends Service  {
                         listenAndWaitAndThrowIntent();
                          bol = lm.addLamp(Boolean.parseBoolean(state),URL,lum,color,win,name,img);
                          if (bol){
+                             final int position =lm.posLamp(name);
                         //mCallback = (OnHeadlineSelectedListener) MainActivity.getContextOfApplication();
                             a.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    a.onArticleSelected(2);
+                                    a.onArticleSelected(position);
                                 }
                             });
                          }

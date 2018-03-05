@@ -81,6 +81,19 @@ public class LampManager {
         return lista.get(i);
     }
 
+    public int posLamp(String name){
+        int i;
+        synchronized (lista) {
+            for (i = 0; i < lista.size(); i++) {
+                if (name.equals(lista.get(i).getName())){
+                    //if (pos==i){
+                    break;
+                }
+            }
+        }
+        return i;
+    }
+
 
 
     public void removeLamp(String name) {
