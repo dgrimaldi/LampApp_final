@@ -37,10 +37,6 @@ public class LampManager {
     }
 
 
-
-
-
-
     /*public void setLamps() {
         boolean b = true;
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
