@@ -78,6 +78,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
         //final LampManager lm = new LampManager();
         final LampManager lm = LampManager.getInstance(this);
+        setTitle(lm.getLamp(pos).getName());
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
         getInitial(lm, pos);
