@@ -51,11 +51,11 @@ implements UDPService.OnHeadlineSelectedListener{
         //gridView.setAdapter(null);
 
         // Esercitazione Sulla lista
-        final LampManager lm = LampManager.getInstance(this);
+        final LampManager lm = LampManager.getInstance();
         //final LampManager lm = new LampManager();
         //lm.setLamps();
-        //Per provare con deu lampade
-        /*
+        //Per provare con due lampade
+
         try {
             lm.addLamp(true, "255.255.255.255", 100, 000000, 25, "LAMP_EXAMPLE_0",null);
         } catch (InterruptedException e) {
@@ -66,9 +66,9 @@ implements UDPService.OnHeadlineSelectedListener{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        */
+
         //
-        lampAdapter = new LampAdapter(this);
+        lampAdapter = new LampAdapter(getApplicationContext());
 /*
         baseSwipeAdapter = new BaseAdapter() {
             @Override

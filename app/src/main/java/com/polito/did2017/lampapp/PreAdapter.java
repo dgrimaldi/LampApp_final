@@ -41,10 +41,10 @@ public class PreAdapter extends BaseAdapter implements SwipeItemMangerInterface,
     private View vC;
     private View vCan;
 
-    public PreAdapter(Context ctx) {
-        lm = LampManager.getInstance(ctx);
+    public PreAdapter() {
+        lm = LampManager.getInstance();
         //lm = new LampManager();
-        contextOfApplication = ctx.getApplicationContext();
+        //contextOfApplication = ctx.getApplicationContext();
     }
 
 

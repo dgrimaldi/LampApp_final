@@ -33,7 +33,7 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
     View vi;
 
     public LampAdapter(Context ctx) {
-        lm = LampManager.getInstance(ctx);
+        lm = LampManager.getInstance();
         //lm = new LampManager();
         contextOfApplication = ctx.getApplicationContext();
     }

@@ -23,16 +23,16 @@ public class LampManager {
     //Map<String, ?> allEntries;
     //SharedPreferences.Editor editor;
 
-    private LampManager(Context ctx) {
-        this.ctx = ctx.getApplicationContext();
+    private LampManager() {
+        //this.ctx = ctx.getApplicationContext();
         //mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         //allEntries = mPrefs.getAll();
         //editor = mPrefs.edit();
     }
 
 
-    public static synchronized LampManager getInstance(Context ctx) {
-        if (ourInstance == null) ourInstance = new LampManager(ctx);
+    public static synchronized LampManager getInstance(/*Context ctx*/) {
+        if (ourInstance == null) ourInstance = new LampManager();
         return ourInstance;
     }
 

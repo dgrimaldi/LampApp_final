@@ -1,13 +1,12 @@
 package com.polito.did2017.lampapp;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 
 public	class Lamp implements Comparable<Lamp> {
     private String name;
     private int rgb;
-    private Bitmap image;;
+    //private Bitmap image;;
     private int intensity;
     private Boolean state;
     public String	URL;
@@ -62,6 +61,7 @@ public	class Lamp implements Comparable<Lamp> {
 
     public void setState(boolean state){
         this.state=state;
+        ////////Bisogna Salvare Lo Stato perché passiamo questo dato da un applicazione ad un altra///////////
         //editor.putBoolean(getName()+"_STATE_DATA", state);
         //editor.apply();
         getState();

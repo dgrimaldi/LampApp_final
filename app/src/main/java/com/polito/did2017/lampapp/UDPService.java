@@ -19,7 +19,7 @@ public class UDPService extends Service  {
 
     private final IBinder myBinder = new MyLocalBinder();
     //LampManager lm = new LampManager();
-    LampManager lm = LampManager.getInstance(this);
+    LampManager lm = LampManager.getInstance();
     int port = 4096;
     public String URL;
     private DatagramSocket udpSocket;
