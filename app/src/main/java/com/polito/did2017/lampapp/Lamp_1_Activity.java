@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -23,6 +24,7 @@ import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.squareup.picasso.Picasso;
 
 
 public class Lamp_1_Activity extends AppCompatActivity {
@@ -82,6 +84,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
         getInitial(lm, pos);
+        ImageView iv= (ImageView) findViewById(R.id.imageView8);
+        Picasso.with(this).load(lm.getLamp(pos).getPicture()).into(iv);
+
 
         aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override

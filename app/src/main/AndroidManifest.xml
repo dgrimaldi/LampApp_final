@@ -18,7 +18,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Lamp_1_Activity"
-            android:label="@string/lamp_1"
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
         </activity>

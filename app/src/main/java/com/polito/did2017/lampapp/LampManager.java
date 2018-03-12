@@ -1,6 +1,6 @@
 package com.polito.did2017.lampapp;
 
-        import android.annotation.TargetApi;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
@@ -70,11 +70,24 @@ public class LampManager {
         return lista;
     }
 
-    ;
+    public int getPosLamp(String name){
+        int i;
+        synchronized (lista) {
+            for (i = 0; i < lista.size(); i++) {
+                if (name.equals(lista.get(i).getName())){
+                    lista.remove(lista.get(i));
+                    break;
+                }
+            }
+        }
+        return i;
+    }
 
     public Lamp getLamp(int i) {
-        Collections.sort(lista);
-        return lista.get(i);
+        synchronized (lista) {
+            Collections.sort(lista);
+            return lista.get(i);
+        }
     }
 
     public int posLamp(String name){
@@ -146,12 +159,6 @@ public class LampManager {
                 new TcpClient(l).execute();
 
             }
-
-            //Ho dovuto inserire c>='0' && c<='9' && name.contains("LAMP_")
-            // perché alle volte arrivavano caratteri unicode
-            // che incasinavano la lista, il nome
-            // delle lampade deve quindi essere nel formato
-            // "LAMP_c" con c numero naturale
         }
         Collections.sort(lista);
         return b;
