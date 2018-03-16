@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -24,7 +23,6 @@ import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
-import com.squareup.picasso.Picasso;
 
 
 public class Lamp_1_Activity extends AppCompatActivity {
@@ -37,7 +35,6 @@ public class Lamp_1_Activity extends AppCompatActivity {
     Switch aSwitch;
     int colorI;
     ShootRefreshView shootRefreshView;
-
 
 
     @SuppressLint("RestrictedApi")
@@ -53,7 +50,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
+        //https://github.com/LarsWerkman/HoloColorPicker
         sV= findViewById(R.id.scrollView);
         cL= findViewById(R.id.Constraint_layout);
         Button b1 = findViewById(R.id.Everyday_button);
@@ -69,23 +66,15 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
 
         final Intent i = getIntent();
-        //Animation
 
-        //
         pos= i.getExtras().getInt("pos");
-        // Necessario in precedenza ora leggiamo i valori da Preferences
-        //System.out.println(state);
-        //S1.setChecked(state);
 
 
-        //final LampManager lm = new LampManager();
         final LampManager lm = LampManager.getInstance();
         setTitle(lm.getLamp(pos).getName());
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
         getInitial(lm, pos);
-        ImageView iv= (ImageView) findViewById(R.id.imageView8);
-        Picasso.with(this).load(lm.getLamp(pos).getPicture()).into(iv);
 
 
         aSwitch.setOnClickListener(new View.OnClickListener() {
@@ -96,10 +85,8 @@ public class Lamp_1_Activity extends AppCompatActivity {
                 RefreshLamp(lm,pos);
             }
         });
-        //Luminosità
         final int lum = lm.getLamp(pos).getIntensity();
         bar.setProgress(lum);
-
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int intensity;
             @Override
@@ -234,7 +221,6 @@ public class Lamp_1_Activity extends AppCompatActivity {
                 RefreshLamp(lm,pos);
             }
         });
-
         mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress;
             @Override
@@ -255,10 +241,6 @@ public class Lamp_1_Activity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
     private void getInitial(LampManager lm, int pos) {
         aSwitch.setChecked(lm.getLamp(pos).getState());
         int luminosity = lm.getLamp(pos).getIntensity();
@@ -267,12 +249,8 @@ public class Lamp_1_Activity extends AppCompatActivity {
         mPullProgressBar.setProgress(progress);
         shootRefreshView.pullProgress(0,((float) progress) / ((float) mPullProgressBar.getMax()));
     }
-
-
-
     public void RefreshLamp(LampManager lm, int i){
         new TcpClient(lm.getLamp(i)).execute();
 
     }
-
 }

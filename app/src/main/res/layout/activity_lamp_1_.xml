@@ -24,9 +24,22 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+        <com.larswerkman.holocolorpicker.ColorPicker
+            android:id="@+id/imageView8"
+            android:layout_width="181dp"
+            android:layout_height="184dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchState"/>
+
+
         <!--android:theme="@style/SCBSwitch"-->
 
-        <ImageView
+        <!--ImageView
             android:id="@+id/imageView8"
             android:layout_width="161dp"
             android:layout_height="162dp"
@@ -36,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchState" />
+            app:layout_constraintTop_toBottomOf="@+id/switchState" /-->
 
 
         <TextView
