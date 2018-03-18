@@ -24,8 +24,12 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+
+        <!--android:theme="@style/SCBSwitch"-->
+
+
         <com.larswerkman.holocolorpicker.ColorPicker
-            android:id="@+id/imageView8"
+            android:id="@+id/picker"
             android:layout_width="181dp"
             android:layout_height="184dp"
             android:layout_marginEnd="8dp"
@@ -34,33 +38,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchState"/>
+            app:layout_constraintTop_toBottomOf="@+id/switchState" />
 
-
-        <!--android:theme="@style/SCBSwitch"-->
-
-        <!--ImageView
+        <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="161dp"
-            android:layout_height="162dp"
+            android:layout_width="103dp"
+            android:layout_height="88dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchState" /-->
-
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/lum"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+            android:src="@drawable/light2"
+            app:layout_constraintBottom_toBottomOf="@+id/picker"
+            app:layout_constraintEnd_toEndOf="@+id/picker"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="@+id/picker"
+            app:layout_constraintTop_toTopOf="@+id/picker"
+            app:layout_constraintVertical_bias="0.49" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -76,6 +70,16 @@
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/lum"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintStart_toEndOf="@+id/imageView" />
 
         <TextView
             android:id="@+id/textView3"
