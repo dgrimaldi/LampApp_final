@@ -23,6 +23,7 @@ import com.flask.colorpicker.OnColorChangedListener;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.larswerkman.holocolorpicker.ColorPicker;
 
 
 public class Lamp_1_Activity extends AppCompatActivity {
@@ -51,6 +52,8 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
 
         //https://github.com/LarsWerkman/HoloColorPicker
+        ColorPicker picker = (ColorPicker) findViewById(R.id.picker);
+        picker.setShowOldCenterColor(false);
         sV= findViewById(R.id.scrollView);
         cL= findViewById(R.id.Constraint_layout);
         Button b1 = findViewById(R.id.Everyday_button);
@@ -160,6 +163,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
             }
 
         });
+        /*
         b4.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
@@ -221,6 +225,19 @@ public class Lamp_1_Activity extends AppCompatActivity {
                 RefreshLamp(lm,pos);
             }
         });
+        */
+        picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int color) {
+                if (lm.getLamp(pos).getState() == true) {
+                    if (lm.getLamp(pos).getRgb() != color) {
+                        lm.getLamp(pos).setColor(color);
+                    }
+                }
+                RefreshLamp(lm,pos);
+            }
+        });
+
         mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress;
             @Override
