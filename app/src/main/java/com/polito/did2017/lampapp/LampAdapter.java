@@ -16,7 +16,6 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface;
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by Davide on 11/02/2018.
@@ -63,7 +62,6 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
 
         tv.setText( lm.getLamp(position).getName());
         s.setChecked(lm.getLamp(position).getState());
-        Picasso.with(contextOfApplication).load(lm.getLamp(position).getPicture()).into(iv);
         final boolean mIsOpen[]=new boolean[lm.getLamps().size()];
         mIsOpen[position]=true;
         swipeLayout.removeAllSwipeListener();
@@ -123,6 +121,13 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
             public void onClick(View v) {
                 Log.d("sto chiudendo:", lm.getLamp(position).getName() +" nella posizione "+ position);
                 closeLamp(position);
+            }
+        });
+        s.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean b = s.isChecked();
+                lm.getLamp(position).setState(b);
             }
         });
     }

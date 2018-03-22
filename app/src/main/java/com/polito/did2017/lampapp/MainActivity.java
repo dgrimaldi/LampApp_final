@@ -62,7 +62,7 @@ implements UDPService.OnHeadlineSelectedListener{
             e.printStackTrace();
         }
         try {
-            lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1",null);
+            lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1","http://1.bp.blogspot.com/-5bPNsF5plzw/VnJWs-7RbrI/AAAAAAAARmA/DaZmn8YUjAk/s1600-r/logo_research_at_google_color_1x_web_512dp.png");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

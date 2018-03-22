@@ -7,10 +7,8 @@
     <color name="Focus">#E6FFFE</color>
     <color name="Relax">#FFD19F</color>
     <color name="line">@android:color/darker_gray</color>
-    <color name="disable_foreground_grey">#FF8A8A8A</color>
-    <color name="disable_thumb_grey">#000000</color>
-    <color name="enable_thumb_green">#000000</color>
+    <color name="background">#fff3f3f3</color>
+    <color name="trasparence">#80FFFFFF</color>
 
-    <color name="black">#000000</color>
 
 </resources>
