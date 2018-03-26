@@ -2,6 +2,11 @@ package com.polito.did2017.lampapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +21,7 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface;
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Davide on 11/02/2018.
@@ -33,7 +39,6 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
 
     public LampAdapter(Context ctx) {
         lm = LampManager.getInstance();
-        //lm = new LampManager();
         contextOfApplication = ctx.getApplicationContext();
     }
 
@@ -51,6 +56,7 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
         return v;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void fillValues(final int position, final View convertView) {
 
@@ -58,10 +64,15 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
         tv  = vi.findViewById(R.id.textViewAD);
         s   = vi.findViewById(R.id.switchAD);
         iv  = vi.findViewById(R.id.imageViewAD);
-
-
+        Drawable background = convertView.getBackground();
+        iv.setBackground(background);
         tv.setText( lm.getLamp(position).getName());
         s.setChecked(lm.getLamp(position).getState());
+        Picasso.get()
+                .load(lm.getLamp(position).getPicture())
+                .fit()
+                .centerCrop()
+                .into(iv);
         final boolean mIsOpen[]=new boolean[lm.getLamps().size()];
         mIsOpen[position]=true;
         swipeLayout.removeAllSwipeListener();

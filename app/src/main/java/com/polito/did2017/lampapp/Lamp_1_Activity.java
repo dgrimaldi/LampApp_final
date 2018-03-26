@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.dinuscxj.shootrefreshview.ShootRefreshView;
 import com.larswerkman.holocolorpicker.ColorPicker;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -38,14 +41,15 @@ public class Lamp_1_Activity extends AppCompatActivity {
     ColorPicker picker;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("RestrictedApi")
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
-
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_lamp_1_);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,25 +84,15 @@ public class Lamp_1_Activity extends AppCompatActivity {
         aSwitch.setChecked(lm.getLamp(pos).getState());
         picker.setColor(lm.getLamp(pos).getRgb());
         ImageView iv = (ImageView) findViewById(R.id.imageView8);
-        //iv.setImageResource(R.drawable.flower_lamp);
-        String imagename = lm.getLamp(pos).getPicture();
-        /*
-        Picasso.with(getApplicationContext())
+
+        final ScrollView sV = findViewById(R.id.scrollView);
+        Drawable background = sV.getBackground();
+        iv.setBackground(background);
+        Picasso.get()
                 .load(lm.getLamp(pos).getPicture())
                 .noFade()
                 .into(iv);
-        */
-        if(CreateBitMap.checkifImageExists(imagename))
-        {
-            File file = CreateBitMap.getImage("/"+imagename+".jpg");
-            String path = file.getAbsolutePath();
-            if (path != null){
-                Bitmap b = BitmapFactory.decodeFile(path);
-                iv.setImageBitmap(b);
-            }
-        } else {
-            new GetImages(imagename, iv, imagename).execute() ;
-        }
+
         setTitle(lm.getLamp(pos).getName());
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
