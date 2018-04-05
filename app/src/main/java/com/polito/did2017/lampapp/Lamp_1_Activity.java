@@ -1,29 +1,28 @@
 package com.polito.did2017.lampapp;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.dinuscxj.shootrefreshview.ShootRefreshView;
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.OnColorChangedListener;
-import com.flask.colorpicker.OnColorSelectedListener;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
+
+import java.io.File;
 
 
 public class Lamp_1_Activity extends AppCompatActivity {
@@ -36,6 +35,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
     Switch aSwitch;
     int colorI;
     ShootRefreshView shootRefreshView;
+    ColorPicker picker;
 
 
     @SuppressLint("RestrictedApi")
@@ -52,8 +52,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
 
         //https://github.com/LarsWerkman/HoloColorPicker
-        ColorPicker picker = (ColorPicker) findViewById(R.id.picker);
+        picker = (ColorPicker) findViewById(R.id.picker);
         picker.setShowOldCenterColor(false);
+        picker.setNewCenterColor(R.color.trasparence);
         sV= findViewById(R.id.scrollView);
         cL= findViewById(R.id.Constraint_layout);
         Button b1 = findViewById(R.id.Everyday_button);
@@ -68,12 +69,36 @@ public class Lamp_1_Activity extends AppCompatActivity {
         mPullProgressBar= findViewById(R.id.pull_progress_bar);
 
 
+
+
         final Intent i = getIntent();
 
         pos= i.getExtras().getInt("pos");
 
 
         final LampManager lm = LampManager.getInstance();
+        aSwitch.setChecked(lm.getLamp(pos).getState());
+        picker.setColor(lm.getLamp(pos).getRgb());
+        ImageView iv = (ImageView) findViewById(R.id.imageView8);
+        //iv.setImageResource(R.drawable.flower_lamp);
+        String imagename = lm.getLamp(pos).getPicture();
+        /*
+        Picasso.with(getApplicationContext())
+                .load(lm.getLamp(pos).getPicture())
+                .noFade()
+                .into(iv);
+        */
+        if(CreateBitMap.checkifImageExists(imagename))
+        {
+            File file = CreateBitMap.getImage("/"+imagename+".jpg");
+            String path = file.getAbsolutePath();
+            if (path != null){
+                Bitmap b = BitmapFactory.decodeFile(path);
+                iv.setImageBitmap(b);
+            }
+        } else {
+            new GetImages(imagename, iv, imagename).execute() ;
+        }
         setTitle(lm.getLamp(pos).getName());
         colorI = lm.getLamp(pos).getRgb();
         RefreshLamp(lm,pos);
@@ -163,75 +188,16 @@ public class Lamp_1_Activity extends AppCompatActivity {
             }
 
         });
-        /*
-        b4.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onClick(View view) {
-                if (lm.getLamp(pos).getState() == true) {
-                    //findViewById(R.id.Color_Button).setOnClickListener(new View.OnClickListener() {
-                        //@Override
-                        //public void onClick(View v) {
-                            final Context context = Lamp_1_Activity.this;
-                            ColorPickerDialogBuilder
-                                    .with(context)
-                                    .setTitle(R.string.color_dialog_title)
-                                    .initialColor(lm.getLamp(pos).getRgb())
-                                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                                    .density(12)
-                                    .setOnColorChangedListener(new OnColorChangedListener() {
-                                        @Override
-                                        public void onColorChanged(int selectedColor) {
-                                            // Handle on color change
-                                            Log.d("ColorPicker", "onColorChanged: 0x" + Integer.toHexString(selectedColor));
-                                        }
-                                    })
-                                    .setOnColorSelectedListener(new OnColorSelectedListener() {
-                                        @Override
-                                        public void onColorSelected(int selectedColor) {
-                                            Toast.makeText(getApplicationContext(),Integer.toHexString(selectedColor), Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .setPositiveButton("ok", new ColorPickerClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                                            lm.getLamp(pos).setColor(selectedColor);
-                                            RefreshLamp(lm,pos);
-                                            if (allColors != null) {
-                                                StringBuilder sb = null;
-                                                for (Integer color : allColors) {
-                                                    if (color == null)
-                                                        continue;
-                                                    if (sb == null)
-                                                        sb = new StringBuilder("Color List:");
-                                                    sb.append("\r\n#" + Integer.toHexString(color).toUpperCase());
-                                                }
-
-                                                if (sb != null)
-                                                    Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                        }
-                                    })
-                                    .showColorEdit(true)
-                                    .setColorEditTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_blue_bright))
-                                    .build()
-                                    .show();
-                }
-                RefreshLamp(lm,pos);
-            }
-        });
-        */
+        // Aggiungere il bottone b4
         picker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
             @Override
             public void onColorChanged(int color) {
                 if (lm.getLamp(pos).getState() == true) {
                     if (lm.getLamp(pos).getRgb() != color) {
                         lm.getLamp(pos).setColor(color);
+                        Drawable drawable = getResources().getDrawable(R.drawable.shape_5);
+                        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+                        Log.d("Sto cambiando colore", String.valueOf(color));
                     }
                 }
                 RefreshLamp(lm,pos);
@@ -258,6 +224,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
             }
         });
     }
+
     private void getInitial(LampManager lm, int pos) {
         aSwitch.setChecked(lm.getLamp(pos).getState());
         int luminosity = lm.getLamp(pos).getIntensity();

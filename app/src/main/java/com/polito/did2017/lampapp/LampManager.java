@@ -90,6 +90,11 @@ public class LampManager {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public int posLamp(String name){
         int i;
         synchronized (lista) {
