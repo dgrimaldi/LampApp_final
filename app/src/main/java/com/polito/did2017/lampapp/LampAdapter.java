@@ -2,6 +2,9 @@ package com.polito.did2017.lampapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.daimajia.swipe.implments.SwipeItemMangerImpl;
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface;
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Davide on 11/02/2018.
@@ -23,17 +27,16 @@ import com.daimajia.swipe.interfaces.SwipeItemMangerInterface;
 
 public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInterface, SwipeAdapterInterface  {
     protected SwipeItemMangerImpl mItemManger = new SwipeItemMangerImpl(this);
-    LampManager lm;
-    Context contextOfApplication;
-    TextView tv;
-    Switch s;
-    ImageView iv;
-    SwipeLayout swipeLayout;
-    View vi;
+    private LampManager lm;
+    private Context contextOfApplication;
+    private TextView tv;
+    private Switch s;
+    private ImageView iv;
+    private SwipeLayout swipeLayout;
+    private View vi;
 
     public LampAdapter(Context ctx) {
         lm = LampManager.getInstance();
-        //lm = new LampManager();
         contextOfApplication = ctx.getApplicationContext();
     }
 
@@ -51,17 +54,19 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
         return v;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void fillValues(final int position, final View convertView) {
 
         vi=convertView;
         tv  = vi.findViewById(R.id.textViewAD);
-        s   = vi.findViewById(R.id.switchAD);
+        s   = vi.findViewById(R.id.switchAL);
         iv  = vi.findViewById(R.id.imageViewAD);
-
-
         tv.setText( lm.getLamp(position).getName());
         s.setChecked(lm.getLamp(position).getState());
+        Load_image(position);
+
+
         final boolean mIsOpen[]=new boolean[lm.getLamps().size()];
         mIsOpen[position]=true;
         swipeLayout.removeAllSwipeListener();
@@ -128,8 +133,17 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
             public void onClick(View v) {
                 Boolean b = s.isChecked();
                 lm.getLamp(position).setState(b);
+                Log.d("DAvide_log"+position, String.valueOf(b));
+                RefreshLamp(lm,position);
             }
         });
+    }
+
+    private void Load_image(int position) {
+        Picasso.get()
+                .load(lm.getLamp(position).getPicture())
+                .transform(new CircleTransform())
+                .into(iv);
     }
 
 
@@ -166,6 +180,10 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
     @Override
     public void notifyDatasetChanged() {
         super.notifyDataSetChanged();
+    }
+
+    public void RefreshLamp(LampManager lm, int i){
+        new TcpClient(lm.getLamp(i)).execute();
     }
 
 }

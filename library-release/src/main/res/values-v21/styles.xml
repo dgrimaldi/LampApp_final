@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LampTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackground">@android:color/darker_gray</item>
+        <item name="android:textColorPrimaryInverse">@android:color/darker_gray</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorAccent">@android:color/holo_purple</item>
+    </style>
+</resources>

@@ -7,10 +7,13 @@
     android:layout_height="match_parent"
     tools:context="com.polito.did2017.lampapp.Lamp_1_Activity">
 
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar">
 
 
         <Switch
@@ -22,32 +25,35 @@
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginRight="16dp" />
+
+        <!--ScrollView
+            android:id="@+id/vista"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/tertiary_text_dark"-->
 
         <com.larswerkman.holocolorpicker.ColorPicker
             android:id="@+id/picker"
-            app:color_center_halo_radius="0dp"
             android:layout_width="236dp"
             android:layout_height="234dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            app:color_center_halo_radius="0dp"
             app:layout_constraintBottom_toTopOf="@+id/seekBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <ImageView
             android:id="@+id/imageView8"
             android:layout_width="103dp"
-            android:layout_height="88dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-
+            android:layout_height="103dp"
             android:background="@drawable/shape_5"
             app:layout_constraintBottom_toBottomOf="@+id/picker"
             app:layout_constraintEnd_toEndOf="@+id/picker"
@@ -79,7 +85,8 @@
             android:layout_marginStart="8dp"
             android:text="@string/lum"
             app:layout_constraintBottom_toTopOf="@+id/seekBar"
-            app:layout_constraintStart_toEndOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            android:layout_marginLeft="8dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -141,7 +148,8 @@
             android:background="@drawable/everyday"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginLeft="16dp" />
 
 
         <TextView
@@ -168,7 +176,8 @@
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginRight="8dp" />
 
         <TextView
             android:id="@+id/relax"
@@ -195,7 +204,8 @@
             app:layout_constraintHorizontal_bias="0.62"
             app:layout_constraintStart_toEndOf="@+id/Everyday_button"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginLeft="8dp" />
 
         <TextView
             android:id="@+id/color"
@@ -220,7 +230,8 @@
             android:background="@drawable/ic_launcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginRight="16dp" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -231,7 +242,8 @@
             app:layout_constraintStart_toStartOf="@+id/imageView6"
             app:layout_constraintTop_toTopOf="@+id/seekBar"
             app:layout_constraintVertical_bias="0.834"
-            app:srcCompat="@drawable/light2" />
+            app:srcCompat="@drawable/light2"
+            android:layout_marginLeft="4dp" />
 
         <Space
             android:id="@+id/space"
@@ -256,7 +268,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/relax"
             app:layout_constraintTop_toBottomOf="@+id/button1"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginRight="8dp" />
 
 
         <com.dinuscxj.shootrefreshview.ShootRefreshView
@@ -273,15 +285,31 @@
         <SeekBar
             android:id="@+id/pull_progress_bar"
             android:layout_width="match_parent"
-            android:max="90"
             android:layout_height="30dp"
             android:layout_marginBottom="24dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:max="90"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shoot_refresh_view" />
+            app:layout_constraintTop_toBottomOf="@+id/shoot_refresh_view"
+            android:layout_marginLeft="8dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
+        
 
     </android.support.constraint.ConstraintLayout>
 
