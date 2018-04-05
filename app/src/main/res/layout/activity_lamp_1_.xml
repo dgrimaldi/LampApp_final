@@ -28,11 +28,6 @@
             tools:ignore="MissingConstraints"
             android:layout_marginRight="16dp" />
 
-        <!--ScrollView
-            android:id="@+id/vista"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/tertiary_text_dark"-->
 
         <com.larswerkman.holocolorpicker.ColorPicker
             android:id="@+id/picker"
@@ -214,7 +209,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Color"
+            android:text="Special"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/Color_Button"
             app:layout_constraintStart_toStartOf="@+id/Color_Button"
@@ -227,11 +222,10 @@
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/ic_launcher"
+            android:background="@android:drawable/btn_star"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints"
-            android:layout_marginRight="16dp" />
+            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -296,20 +290,8 @@
             app:layout_constraintTop_toBottomOf="@+id/shoot_refresh_view"
             android:layout_marginLeft="8dp" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
-        
+
 
     </android.support.constraint.ConstraintLayout>
 

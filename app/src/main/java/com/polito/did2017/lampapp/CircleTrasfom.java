@@ -38,7 +38,6 @@ class CircleTransform implements Transformation {
         canvas.drawCircle(r, r, r, paint);
         squaredBitmap.recycle();
 
-
         return bitmap;
     }
 

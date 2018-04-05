@@ -9,6 +9,7 @@
     <color name="line">@android:color/darker_gray</color>
     <color name="background">#fff3f3f3</color>
     <color name="trasparence">#9effffff</color>
+    <color name="black">#000000</color>
 
 
 </resources>
