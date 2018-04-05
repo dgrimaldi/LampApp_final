@@ -8,7 +8,7 @@
     <color name="Relax">#FFD19F</color>
     <color name="line">@android:color/darker_gray</color>
     <color name="background">#fff3f3f3</color>
-    <color name="trasparence">#80FFFFFF</color>
+    <color name="trasparence">#9effffff</color>
 
 
 </resources>

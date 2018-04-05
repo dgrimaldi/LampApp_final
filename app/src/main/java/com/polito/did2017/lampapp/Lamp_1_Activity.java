@@ -85,12 +85,9 @@ public class Lamp_1_Activity extends AppCompatActivity {
         picker.setColor(lm.getLamp(pos).getRgb());
         ImageView iv = (ImageView) findViewById(R.id.imageView8);
 
-        final ScrollView sV = findViewById(R.id.scrollView);
-        Drawable background = sV.getBackground();
-        iv.setBackground(background);
         Picasso.get()
                 .load(lm.getLamp(pos).getPicture())
-                .noFade()
+                .transform(new CircleTransform())
                 .into(iv);
 
         setTitle(lm.getLamp(pos).getName());
@@ -229,6 +226,5 @@ public class Lamp_1_Activity extends AppCompatActivity {
     }
     public void RefreshLamp(LampManager lm, int i){
         new TcpClient(lm.getLamp(i)).execute();
-
     }
 }

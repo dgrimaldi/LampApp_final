@@ -5,7 +5,8 @@
     android:id="@+id/swipe1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="167dp"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    >
 
     <LinearLayout
         android:id="@+id/bottom_wrapper"
@@ -50,7 +51,8 @@
         android:layout_marginBottom="50dp"
         android:minHeight="190dp"
         android:padding="10dp"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:theme="@style/AppTheme">
 
         <ImageView
             android:id="@+id/imageViewAD"
@@ -61,6 +63,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
+            android:background="@drawable/shape_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textViewAD"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,20 +84,19 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Switch
-            android:id="@+id/switchAD"
+            android:id="@+id/switchAL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints"
             tools:layout_conversion_absoluteHeight="27dp"
             tools:layout_conversion_absoluteWidth="40dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:layout_editor_absoluteY="0dp"/>
 
     </android.support.constraint.ConstraintLayout>
 
