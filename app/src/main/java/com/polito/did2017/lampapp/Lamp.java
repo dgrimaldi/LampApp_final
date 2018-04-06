@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 public	class Lamp implements Comparable<Lamp> {
     private String name;
     private int rgb;
-    //private Bitmap image;;
     private int intensity;
     private Boolean state;
     public String	URL;

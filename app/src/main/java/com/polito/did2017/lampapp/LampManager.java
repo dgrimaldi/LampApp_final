@@ -31,7 +31,7 @@ public class LampManager {
     }
 
 
-    public static synchronized LampManager getInstance(/*Context ctx*/) {
+    public static synchronized LampManager getInstance() {
         if (ourInstance == null) ourInstance = new LampManager();
         return ourInstance;
     }

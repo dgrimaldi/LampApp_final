@@ -24,14 +24,14 @@ import com.squareup.picasso.Picasso;
 
 public class Lamp_1_Activity extends AppCompatActivity {
 
-    SeekBar bar;
-    int pos;
-    SeekBar mPullProgressBar;
-    Switch aSwitch;
-    ShootRefreshView shootRefreshView;
-    ColorPicker picker;
-    LampManager lm;
-    ImageView iv;
+    private SeekBar bar;
+    private int pos;
+    private SeekBar mPullProgressBar;
+    private Switch aSwitch;
+    private ShootRefreshView shootRefreshView;
+    private ColorPicker picker;
+    private LampManager lm;
+    private ImageView iv;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -73,30 +73,32 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
         setInitial(lm, pos);
 
-
-
         aSwitch.setOnClickListener(view -> {
             boolean state = aSwitch.isChecked();
             lm.getLamp(pos).setState(state);
             RefreshLamp(lm,pos);
+            stateWidgetChanged();
         });
 
-        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int intensity;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int intensity, boolean b) {
-                this.intensity=intensity;
-                lm.getLamp(pos).setIntensity(intensity);
-                System.out.println(intensity);
-                RefreshLamp(lm,pos);
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+            bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                int intensity;
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int intensity, boolean b) {
+                    this.intensity = intensity;
+                    lm.getLamp(pos).setIntensity(intensity);
+                    System.out.println(intensity);
+                    RefreshLamp(lm, pos);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
 
         b1.setOnClickListener(v -> {
             String name_button= "EveryDay";
@@ -118,41 +120,38 @@ public class Lamp_1_Activity extends AppCompatActivity {
         });
 
 
-
-        picker.setOnColorChangedListener(color -> {
-            if (lm.getLamp(pos).getState() == true) {
+            picker.setOnColorChangedListener(color -> {
                 if (lm.getLamp(pos).getRgb() != color) {
                     lm.getLamp(pos).setColor(color);
                     Drawable drawable = getResources().getDrawable(R.drawable.shape_5);
                     drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
                     Log.d("Sto cambiando colore", String.valueOf(color));
                 }
-            }
-            RefreshLamp(lm,pos);
-        });
+                RefreshLamp(lm, pos);
+            });
 
-        mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                this.progress=progress;
-                shootRefreshView.pullProgress(0, ((float) progress) / ((float) seekBar.getMax()));
-                lm.getLamp(pos).setWing(progress);
-                RefreshLamp(lm,pos);
-            }
+            mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                int progress;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    this.progress = progress;
+                    shootRefreshView.pullProgress(0, ((float) progress) / ((float) seekBar.getMax()));
+                    lm.getLamp(pos).setWing(progress);
+                    RefreshLamp(lm, pos);
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-    }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
+        }
 
     private void setInitial(LampManager lm, int pos) {
         aSwitch.setChecked(lm.getLamp(pos).getState());
+        stateWidgetChanged();
         picker.setColor(lm.getLamp(pos).getRgb());
         Picasso.get()
                 .load(lm.getLamp(pos).getPicture())
@@ -170,7 +169,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
 
     public void pressButton(int color, String name_button){
         lm = LampManager.getInstance();
-        if (lm.getLamp(pos).getState() == true) {
+        if (checkIsOn()) {
             if (lm.getLamp(pos).getRgb() != color) {
                 lm.getLamp(pos).setColor(color);
                 @SuppressLint("WrongConstant")
@@ -179,5 +178,20 @@ public class Lamp_1_Activity extends AppCompatActivity {
             }
         }
         RefreshLamp(lm,pos);
+    }
+    public boolean checkIsOn(){
+        if(lm.getLamp(pos).getState()==true)
+            return true;
+        else{
+            @SuppressLint("WrongConstant")
+            Toast toast = Toast.makeText(getApplicationContext(), "Turn on the lamp", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        return false;
+    }
+    public void stateWidgetChanged(){
+        bar.setEnabled(checkIsOn());
+        picker.setEnabled(checkIsOn());
+        mPullProgressBar.setEnabled(checkIsOn());
     }
 }
