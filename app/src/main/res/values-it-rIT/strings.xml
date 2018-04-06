@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lum">luminosità</string>
+    <string name="light">Colore</string>
+    <string name="win">Apertura</string>
+</resources>
