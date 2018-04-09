@@ -42,7 +42,8 @@
             android:textColor="#FF5534" />
     </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/grid_"
         android:layout_width="match_parent"
@@ -52,7 +53,9 @@
         android:minHeight="190dp"
         android:padding="10dp"
         android:visibility="visible"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:gravity="center"
+        >
 
         <ImageView
             android:id="@+id/imageViewAD"
@@ -64,10 +67,7 @@
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop"
             android:background="@drawable/shape_1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textViewAD"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            />
 
         <TextView
             android:id="@+id/textViewAD"
@@ -82,22 +82,18 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_toEndOf="@+id/imageViewAD"
+            android:layout_toRightOf="@+id/imageViewAD"
+            />
 
         <Switch
             android:id="@+id/switchAL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_conversion_absoluteHeight="27dp"
-            tools:layout_conversion_absoluteWidth="40dp"
-            tools:layout_editor_absoluteY="0dp"/>
+            android:layout_toRightOf="@+id/textViewAD"
+            android:layout_alignParentTop="true"
+            />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
 </com.daimajia.swipe.SwipeLayout>
