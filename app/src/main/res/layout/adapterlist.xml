@@ -51,13 +51,13 @@
         android:visibility="visible"
         android:theme="@style/AppTheme"
         android:gravity="center"
+        android:weightSum="8"
         >
 
         <ImageView
             android:id="@+id/imageViewAD"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_gravity=""
             android:background="@drawable/shape_1"
             android:scaleType="centerCrop"
 
@@ -67,13 +67,15 @@
             android:id="@+id/textViewAD"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:textAlignment="center"
             android:text="kkkkkk"
             android:textAllCaps="true"
             android:textColor="#000000"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_weight="5"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp" />
 
         <Switch
             android:id="@+id/switchAL"
