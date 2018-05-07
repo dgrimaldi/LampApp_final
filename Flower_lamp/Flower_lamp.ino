@@ -15,6 +15,7 @@
 #include "Arduino.h"
 #include <SPI.h>
 #include <ESP8266WiFi.h>
+#include <EEPROM.h>
 //#include <WiFi101.h>
 #include <WiFiUdp.h>
 #include <FastLED.h>
@@ -26,8 +27,8 @@
 int status = WL_IDLE_STATUS;
 //#include "arduino_secrets.h"
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "ubuntu-X200CA";        // your network SSID (name)
-char pass[] = "2cX4nyCh";    // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "AndroidAP";        // your network SSID (name)
+char pass[] = "111111";    // your network password (use for WPA, or use as key for WEP)
 char lum1[10];
 unsigned int localPort = 4096;      // local port to listen on
 
@@ -40,8 +41,8 @@ int r; int g; int b;
   
   //char largechars ;
   String state="true";
+  String col="00000";
   int lum=2;
-  String intCol="00000";
   int wing=2;
 
 
@@ -56,12 +57,44 @@ unsigned long previousMillis = 0;
 const long interval = 5000; 
 
 void setup() {
+  
+   EEPROM.begin(512);
+  for (int i = 0; i < 40; ++i){
+    if(char(EEPROM.read(i))!=null){
+      state += char(EEPROM.read(i));
+    }
+  }
+  for (int i = 40; i < 88; ++i){
+    if(char(EEPROM.read(i))!=null){
+      col += char(EEPROM.read(i));
+    }
+  }
+  if(col!=null){
+    long number = (long) strtol( &col[1], NULL, 16);
+    r = number >> 16;
+    g = number >> 8 & 0xFF;
+    b = number & 0xFF;
+  }
+  //Mancano gli interi
+  
+  
+  
+    // Check to see if the client request was "true" or "false":
+  if (state!=null && state.equals("true")) {
+    Serial.println("acceso");
+    OnLED();                          // true turns the LED on
+    Brightness(lum);
+    Wings(wing);
+  }
+  if (state!=null && state.equals("false")) {
+    Serial.println("spento");
+    OffLED();                         // false turns the LED off
+    Brightness(0);
+    Wings(0);
+  }
+  
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  for (int p = 0; p < NUM_LEDS; p++) {
-    leds[p] = CRGB::Red;
-  }
-  FastLED.show();
 
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
@@ -136,10 +169,9 @@ while (client.available())  {
   
   state = readString.substring(0, i1--);
   lum = readString.substring(i1 + 2, i2).toInt();
-  String col = "#" + readString.substring(i2 + 3, i3--);
+  col = "#" + readString.substring(i2 + 3, i3--);
   wing = readString.substring(i3+2,readString.length()).toInt();
  
-  intCol=readString.substring(i2 + 3, i3--).toInt();
   long number = (long) strtol( &col[1], NULL, 16);
   r = number >> 16;
   g = number >> 8 & 0xFF;
