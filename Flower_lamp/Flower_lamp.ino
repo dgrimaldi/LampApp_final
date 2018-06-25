@@ -1,22 +1,8 @@
-/*
-  WiFi UDP Send and Receive String
 
-  This sketch wait an UDP packet on localPort using a WiFi shield.
-  When a packet is received an Acknowledge packet is sent to the client on port remotePort
-
-  Circuit:
-   WiFi shield attached
-
-  created 30 December 2012
-  by dlf (Metodo2 srl)
-
-*/
-
+//initialize libraries
 #include "Arduino.h"
 #include <SPI.h>
 #include <ESP8266WiFi.h>
-#include <EEPROM.h>
-//#include <WiFi101.h>
 #include <WiFiUdp.h>
 #include <FastLED.h>
 #include <Servo.h>
@@ -24,29 +10,24 @@
 #define DATA_PIN 5
 #define BRIGHTNESS  100
 
+
+//initialize wi fi port
 int status = WL_IDLE_STATUS;
-//#include "arduino_secrets.h"
-///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = "AndroidAP";        // your network SSID (name)
 char pass[] = "111111";    // your network password (use for WPA, or use as key for WEP)
 char lum1[10];
 unsigned int localPort = 4096;      // local port to listen on
 
-int r; int g; int b;
-
-  char recive[] ="";
-
-  String readString = "";
-  //char
   
-  //char largechars ;
-  String state="true";
-  String col="00000";
-  int lum=2;
-  int wing=2;
+//initialize inputs options
+int r; int g; int b;
+char recive[] ="";
+String readString = "";
+String state="false";
+String col="00000";
+int lum=0;
+int wing=0;
 
-
- 
 WiFiServer server(2048);
 WiFiClient client;
 WiFiUDP Udp;
@@ -57,50 +38,11 @@ unsigned long previousMillis = 0;
 const long interval = 5000; 
 
 void setup() {
-  
-   EEPROM.begin(512);
-  for (int i = 0; i < 40; ++i){
-    if(char(EEPROM.read(i))!=null){
-      state += char(EEPROM.read(i));
-    }
-  }
-  for (int i = 40; i < 88; ++i){
-    if(char(EEPROM.read(i))!=null){
-      col += char(EEPROM.read(i));
-    }
-  }
-  if(col!=null){
-    long number = (long) strtol( &col[1], NULL, 16);
-    r = number >> 16;
-    g = number >> 8 & 0xFF;
-    b = number & 0xFF;
-  }
-  //Mancano gli interi
-  
-  
-  
-    // Check to see if the client request was "true" or "false":
-  if (state!=null && state.equals("true")) {
-    Serial.println("acceso");
-    OnLED();                          // true turns the LED on
-    Brightness(lum);
-    Wings(wing);
-  }
-  if (state!=null && state.equals("false")) {
-    Serial.println("spento");
-    OffLED();                         // false turns the LED off
-    Brightness(0);
-    Wings(0);
-  }
-  
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
 
   // check for the presence of the shield:
   if (WiFi.status() == WL_NO_SHIELD) {
@@ -118,8 +60,6 @@ void setup() {
 
     // wait 10 seconds for connection:
     delay(10000);
-
-
   }
   Serial.println("Connected to wifi");
   printWiFiStatus();
@@ -127,26 +67,23 @@ void setup() {
   server.begin();
   servo1.attach(5);//corrisponde al pin d1
   servo2.attach(4);//corrisponde al pin d2
+  OffLED();
 }
 
 void loop() {
-
   
   WiFiClient client = server.available();   // listen for incoming clients
   if (!client) {
     SendUDP();
     return;
   }
-
-
-  
   
   // Wait until the client sends some data
   Serial.println("new client");
   while (!client.available()) {
       Serial.println("aspetto client");
   }
-while (client.available())  {
+  while (client.available())  {
     delay(3);  
     char c = client.read();
     readString += c; 
@@ -154,11 +91,6 @@ while (client.available())  {
   readString.trim();
 
   
-    Serial.println("dati:   "+readString);
-
-
-  
-
   //char s = client.read();           // read a byte, then
   //Serial.println(s);                  // print it out the serial monitor
   //String c = client.readString();
@@ -243,25 +175,7 @@ void Wings(int wing){
 void SendUDP () {
   if (status == WL_CONNECTED)
   {
-
-    //SERVE PER RICEVERE PACCHETTI UDP
-    /*Serial.print("Received packet of size ");
-    Serial.println(packetSize);
-    Serial.print("From ");
-    IPAddress remoteIp = Udp.remoteIP();
-    Serial.print(remoteIp);
-    Serial.print(", port ");
-    Serial.println(Udp.remotePort()); * /
-
-    /*int len = Udp.read(packetBuffer, 255);
-      if (len > 0) packetBuffer[len] = 0;
-      Serial.println("Contents:");
-      Serial.println(packetBuffer);
-
-      char lcdBuffer[16];
-      sprintf(lcdBuffer, "%d.%d.%d.%d:%d", myIP[0], myIP[1], myIP[2], myIP[3]);*/
-
-     unsigned long currentMillis = millis();
+    unsigned long currentMillis = millis();
 
   if (currentMillis - previousMillis >= interval) {
     Serial.print("invio");
