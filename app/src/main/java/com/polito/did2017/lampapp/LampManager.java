@@ -153,14 +153,15 @@ public class LampManager {
                 Log.d("ERR", e.getMessage());
             }
             if (b) {
-                System.out.println("Thread.sleep(5000)");
                 Lamp l = new Lamp(URL, name);
                 lista.add(l);
                 l.setState(s);
                 l.setColor(col);
                 l.setIntensity(lum);
                 l.setWing(win);
-                l.setPicture(img);
+                if(img == null || img.compareTo("")==0)l.setPicture("https://firebasestorage.googleapis.com/v0/b/lampapp-6688e.appspot.com/"+
+                        "o/Flower_Lamp.png?alt=media&token=50681145-8f46-4cfe-8ea0-e2bebb78785a");
+                else l.setPicture(img);
                 new TcpClient(l).execute();
 
             }

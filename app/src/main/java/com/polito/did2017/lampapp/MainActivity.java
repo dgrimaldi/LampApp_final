@@ -62,12 +62,10 @@ implements UDPService.OnHeadlineSelectedListener{
             e.printStackTrace();
         }
         try {
-            lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1","https://firebasestorage.googleapis.com/v0/b/lampapp-6688e.appspot.com/o/Flower_Lamp.png?alt=media&token=50681145-8f46-4cfe-8ea0-e2bebb78785a");
+            lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1","");
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-
-       */
+        }*/
 
         //
         lampAdapter = new LampAdapter(getApplicationContext());
