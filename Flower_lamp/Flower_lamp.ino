@@ -176,36 +176,32 @@ void SendUDP () {
   if (status == WL_CONNECTED)
   {
     unsigned long currentMillis = millis();
-
-  if (currentMillis - previousMillis >= interval) {
-    Serial.print("invio");
-    previousMillis = currentMillis;
-    IPAddress ip(255, 255, 255, 255);
-    const char *st = state.c_str();
-    
-    const char *cl = intCol.c_str();
-    //char co[10];
-    //sprintf(co, "%d", intCol);
-    char lu[10];
-    sprintf(lu, "%d", lum); 
-    char wi[10];
-    sprintf(wi, "%d", wing);
-    Udp.beginPacket(ip, localPort);
-    Udp.write("LAMP_4");
-    Udp.write("*");
-    Udp.write(st);
-    Udp.write("-");
-    Udp.write(lu);
-    Udp.write("+");
-    Udp.write(cl);
-    Udp.write(",");
-    Udp.write(wi);
-    Udp.write("<");
-    Udp.write("https://firebasestorage.googleapis.com/v0/b/lampapp-6688e.appspot.com/o/Flower_Lamp.png?alt=media&token=50681145-8f46-4cfe-8ea0-e2bebb78785a");
-    Udp.endPacket();
-    delay(10);
+    if (currentMillis - previousMillis >= interval) {
+      Serial.print("invio");
+      previousMillis = currentMillis;   
+      IPAddress ip(255, 255, 255, 255);   
+      const char *st = state.c_str();   
+      const char *cl = intCol.c_str();
+      char lu[10];    
+      sprintf(lu, "%d", lum);   
+      char wi[10];
+      sprintf(wi, "%d", wing);
+      Udp.beginPacket(ip, localPort);
+      Udp.write("LAMP_4");
+      Udp.write("*");   
+      Udp.write(st);
+      Udp.write("-");
+      Udp.write(lu);
+      Udp.write("+");
+      Udp.write(cl);
+      Udp.write(",");
+      Udp.write(wi);
+      Udp.write("<");
+      Udp.write("https://firebasestorage.googleapis.com/v0/b/lampapp-6688e.appspot.com/o/Flower_Lamp.png?alt=media&token=50681145-8f46-4cfe-8ea0-e2bebb78785a");
+      Udp.endPacket();
+      delay(10);
+    }
   }
-}
 }
 
 
