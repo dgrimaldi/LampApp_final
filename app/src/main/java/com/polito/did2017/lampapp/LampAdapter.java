@@ -128,14 +128,10 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
                 closeLamp(position);
             }
         });
-        s.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Boolean b = s.isChecked();
-                lm.getLamp(position).setState(b);
-                Log.d("DAvide_log"+position, String.valueOf(b));
-                RefreshLamp(lm,position);
-            }
+        s.setOnCheckedChangeListener((v1,v2) -> {
+            lm.getLamp(position).setState(v2);
+            Log.d("DAvide_log"+position, String.valueOf(v2));
+            RefreshLamp(lm,position);
         });
     }
 
@@ -185,5 +181,6 @@ public class LampAdapter extends BaseSwipeAdapter implements SwipeItemMangerInte
     public void RefreshLamp(LampManager lm, int i){
         new TcpClient(lm.getLamp(i)).execute();
     }
+
 
 }

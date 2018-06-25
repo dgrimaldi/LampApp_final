@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import com.squareup.picasso.Picasso;
 
 
 public class Lamp_1_Activity extends AppCompatActivity {
+
+    private static final int SHORT_DELAY = 500;
 
     private SeekBar bar;
     private int pos;
@@ -44,7 +47,7 @@ public class Lamp_1_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         final Intent i = getIntent();
-        pos= i.getExtras().getInt("pos");
+        pos = i.getExtras().getInt("pos");
         lm = LampManager.getInstance();
         setTitle(lm.getLamp(pos).getName());
 
@@ -61,65 +64,60 @@ public class Lamp_1_Activity extends AppCompatActivity {
         iv = (ImageView) findViewById(R.id.imageView8);
 
 
-        bar= findViewById(R.id.seekBar);
+        bar = findViewById(R.id.seekBar);
 
         Button b1 = findViewById(R.id.Everyday_button);
         Button b2 = findViewById(R.id.Focus_button);
         Button b3 = findViewById(R.id.Relax_button);
-        Button b4 = findViewById(R.id.Color_Button);
 
         shootRefreshView = findViewById(R.id.shoot_refresh_view);
-        mPullProgressBar= findViewById(R.id.pull_progress_bar);
+        mPullProgressBar = findViewById(R.id.pull_progress_bar);
 
         setInitial(lm, pos);
 
         aSwitch.setOnClickListener(view -> {
             boolean state = aSwitch.isChecked();
             lm.getLamp(pos).setState(state);
-            RefreshLamp(lm,pos);
+            RefreshLamp(lm, pos);
             stateWidgetChanged();
         });
 
-            bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                int intensity;
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int intensity;
 
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int intensity, boolean b) {
-                    this.intensity = intensity;
-                    lm.getLamp(pos).setIntensity(intensity);
-                    System.out.println(intensity);
-                    RefreshLamp(lm, pos);
-                }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int intensity, boolean b) {
+                this.intensity = intensity;
+                lm.getLamp(pos).setIntensity(intensity);
+                System.out.println(intensity);
+                RefreshLamp(lm, pos);
+            }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-            });
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
         b1.setOnClickListener(v -> {
-            String name_button= "EveryDay";
+            String name_button = "EveryDay";
             pressButton(getResources().getColor(R.color.EveryDay), name_button);
         });
 
         b2.setOnClickListener(v -> {
-            String name_button= "Focus";
+            String name_button = "Focus";
             pressButton(getResources().getColor(R.color.Focus), name_button);
+
         });
 
         b3.setOnClickListener(v -> {
-            String name_button= "Relax";
+            String name_button = "Relax";
             pressButton(getResources().getColor(R.color.Relax), name_button);
-        });
-        b4.setOnClickListener(v -> {
-            String name_button= "Special";
-            pressButton(getResources().getColor(R.color.black), name_button);
-        });
 
-
+        });
             picker.setOnColorChangedListener(color -> {
                 if (lm.getLamp(pos).getRgb() != color) {
                     lm.getLamp(pos).setColor(color);
@@ -130,24 +128,26 @@ public class Lamp_1_Activity extends AppCompatActivity {
                 RefreshLamp(lm, pos);
             });
 
-            mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                int progress;
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    this.progress = progress;
-                    shootRefreshView.pullProgress(0, ((float) progress) / ((float) seekBar.getMax()));
-                    lm.getLamp(pos).setWing(progress);
-                    RefreshLamp(lm, pos);
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
+        mPullProgressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress;
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-            });
-        }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                this.progress = progress;
+                shootRefreshView.pullProgress(0, ((float) progress) / ((float) seekBar.getMax()));
+                lm.getLamp(pos).setWing(progress);
+                RefreshLamp(lm, pos);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
 
     private void setInitial(LampManager lm, int pos) {
         aSwitch.setChecked(lm.getLamp(pos).getState());
@@ -161,37 +161,53 @@ public class Lamp_1_Activity extends AppCompatActivity {
         bar.setProgress(luminosity);
         int progress = lm.getLamp(pos).getWing();
         mPullProgressBar.setProgress(progress);
-        shootRefreshView.pullProgress(0,((float) progress) / ((float) mPullProgressBar.getMax()));
+        shootRefreshView.pullProgress(0, ((float) progress) / ((float) mPullProgressBar.getMax()));
     }
-    public void RefreshLamp(LampManager lm, int i){
+
+    public void RefreshLamp(LampManager lm, int i) {
         new TcpClient(lm.getLamp(i)).execute();
     }
 
-    public void pressButton(int color, String name_button){
+    public void pressButton(int color, String name_button) {
         lm = LampManager.getInstance();
         if (checkIsOn()) {
             if (lm.getLamp(pos).getRgb() != color) {
                 lm.getLamp(pos).setColor(color);
+                picker.setColor(color);
                 @SuppressLint("WrongConstant")
-                Toast toast = Toast.makeText(getApplicationContext(), name_button, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), name_button, SHORT_DELAY);
                 toast.show();
+                toastCancel(toast);
             }
         }
-        RefreshLamp(lm,pos);
+        RefreshLamp(lm, pos);
     }
-    public boolean checkIsOn(){
-        if(lm.getLamp(pos).getState()==true)
+
+    public boolean checkIsOn() {
+        if (lm.getLamp(pos).getState() == true)
             return true;
-        else{
+        else {
             @SuppressLint("WrongConstant")
-            Toast toast = Toast.makeText(getApplicationContext(), "Turn on the lamp", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.turn_on, SHORT_DELAY);
             toast.show();
+            toastCancel(toast);
         }
         return false;
     }
-    public void stateWidgetChanged(){
+
+    private void toastCancel(Toast toast) {
+        Handler handler = new Handler();
+        handler.postDelayed(() -> toast.cancel(), 850);
+    }
+
+    public void stateWidgetChanged() {
         bar.setEnabled(checkIsOn());
         picker.setEnabled(checkIsOn());
+        if (!checkIsOn()) {
+            picker.setAlpha(0.001f);
+        } else {
+            picker.setAlpha(1.0f);
+        }
         mPullProgressBar.setEnabled(checkIsOn());
     }
 }

@@ -3,4 +3,5 @@
     <string name="lum">luminosità</string>
     <string name="light">Colore</string>
     <string name="win">Apertura</string>
+    <string name="turn_on">Accendi la lamapada</string>
 </resources>

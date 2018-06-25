@@ -138,13 +138,14 @@
             android:id="@+id/Everyday_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/everyday"
+            app:layout_constraintEnd_toStartOf="@+id/space"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints"
-            android:layout_marginLeft="16dp" />
+            tools:ignore="MissingConstraints" />
 
 
         <TextView
@@ -164,15 +165,14 @@
             android:id="@+id/Focus_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/focus"
-            app:layout_constraintEnd_toStartOf="@+id/Color_Button"
-            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints"
-            android:layout_marginRight="8dp" />
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/relax"
@@ -192,17 +192,18 @@
             android:id="@+id/Relax_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/relax"
-            app:layout_constraintEnd_toEndOf="@+id/space"
-            app:layout_constraintHorizontal_bias="0.62"
-            app:layout_constraintStart_toEndOf="@+id/Everyday_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints"
-            android:layout_marginLeft="8dp" />
+            tools:ignore="MissingConstraints" />
 
-        <TextView
+        <!--TextView
             android:id="@+id/color"
             android:layout_width="80dp"
             android:layout_height="18dp"
@@ -225,7 +226,7 @@
             android:background="@android:drawable/btn_star"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints" /-->
 
         <ImageView
             android:id="@+id/imageView"

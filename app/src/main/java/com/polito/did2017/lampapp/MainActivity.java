@@ -55,7 +55,7 @@ implements UDPService.OnHeadlineSelectedListener{
         //final LampManager lm = new LampManager();
         //lm.setLamps();
         //Per provare con due lampade
-
+        /*
         try {
             lm.addLamp(true, "255.255.255.255", 100, 000000, 25, "LAMP_EXAMPLE_0",null);
         } catch (InterruptedException e) {
@@ -66,6 +66,8 @@ implements UDPService.OnHeadlineSelectedListener{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+       */
 
         //
         lampAdapter = new LampAdapter(getApplicationContext());
@@ -86,6 +88,10 @@ implements UDPService.OnHeadlineSelectedListener{
         //startService(intent);
     }
 
+    protected void onResume() {
+        super.onResume();
+        lampAdapter.notifyDataSetChanged();
+    }
 
     private ServiceConnection myConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
