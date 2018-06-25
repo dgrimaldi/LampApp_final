@@ -60,12 +60,12 @@ implements UDPService.OnHeadlineSelectedListener{
             lm.addLamp(true, "255.255.255.255", 100, 000000, 25, "LAMP_EXAMPLE_0",null);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         try {
             lm.addLamp(false, "255.255.255.0", 250, 000000, 50, "LAMP_EXAMPLE_1","");
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
 
         //
         lampAdapter = new LampAdapter(getApplicationContext());

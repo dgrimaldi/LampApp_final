@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="lum">luminosità</string>
-    <string name="light">Colore</string>
+    <string name="lum">Luminosità</string>
+    <string name="light">Colore Lampada</string>
     <string name="win">Apertura</string>
     <string name="turn_on">Accendi la lamapada</string>
 </resources>
